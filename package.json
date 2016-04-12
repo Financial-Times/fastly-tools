@@ -6,6 +6,9 @@
   "scripts": {
     "test": "make test"
   },
+  "engines" : {
+    "node" : "5.X.X"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Financial-Times/fastly-tools.git"

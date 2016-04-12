@@ -23,7 +23,7 @@ describe('Deploy Task', function(){
 	});
 
 	it('Should be able to deploy some vcl', function(){
-		return deployVcl(path.resolve(__dirname, './fixtures/vcl')+'/', {service:fastlyMock.fakeServiceId, disableLogs:true}).then(function(){
+		return deployVcl(path.resolve(__dirname, './fixtures/vcl')+'/', {service:fastlyMock.fakeServiceId, disableLogs:false}).then(function(){
 			sinon.assert.called(fastlyMock().updateVcl);
 		});
 	});

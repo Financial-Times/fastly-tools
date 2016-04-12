@@ -116,8 +116,8 @@ function task (folder, opts) {
 			log.info('Upload new backends');
 		}
 
-		log.success('Your VCL has been deployed.  Have a nice cup of tea and relax');
-		log.art('tea', 'success');
+		log.success('Your VCL has been deployed.');
+		log.art('superman', 'success');
 
 
 
