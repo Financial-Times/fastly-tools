@@ -1,0 +1,34 @@
+{
+  "name": "fastly-tools",
+  "version": "1.0.0",
+  "description": "Command Line Utility for interacting with fastly",
+  "main": "main.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Financial-Times/fastly-tools.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Financial-Times/fastly-tools/issues"
+  },
+  "homepage": "https://github.com/Financial-Times/fastly-tools#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "proxyquire": "^1.7.4",
+    "sinon": "^1.17.3"
+  },
+  "dependencies": {
+    "array.prototype.find": "^2.0.0",
+    "array.prototype.includes": "^1.0.0",
+    "co": "^4.6.0",
+    "colors": "^1.1.2",
+    "dotenv": "^2.0.0",
+    "fastly": "github:financial-times/fastly",
+    "node-fetch": "^1.5.0"
+  }
+}
