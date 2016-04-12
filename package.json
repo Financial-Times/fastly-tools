@@ -6,6 +6,9 @@
   "scripts": {
     "test": "make test"
   },
+  "engines" : {
+    "node" : "5.10.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Financial-Times/fastly-tools.git"
@@ -29,6 +32,7 @@
     "colors": "^1.1.2",
     "dotenv": "^2.0.0",
     "fastly": "github:financial-times/fastly",
-    "node-fetch": "^1.5.0"
+    "node-fetch": "^1.5.0",
+    "vcl-parser": "^1.0.0-alpha2"
   }
 }
