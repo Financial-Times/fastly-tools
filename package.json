@@ -7,7 +7,7 @@
     "test": "make test"
   },
   "engines" : {
-    "node" : "5.X.X"
+    "node" : "5.10.1"
   },
   "repository": {
     "type": "git",
