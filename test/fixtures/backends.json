@@ -1,0 +1,167 @@
+{
+  "backends": [
+    {
+      "name": "falcon",
+      "connect_timeout": "3s",
+      "port": "80",
+      "address": "render.prod.ft.com",
+      "first_byte_timeout": "1s",
+      "max_conn": 200,
+      "between_bytes_timeout": "1s",
+      "healthcheck": "falcon_healthcheck"
+    },
+    {
+      "name": "ig",
+      "connect_timeout": "3s",
+      "port": "80",
+      "address": "ig.ft.com",
+      "first_byte_timeout": "1s",
+      "max_conn": 200,
+      "between_bytes_timeout": "1s",
+      "healthcheck": "ig_healthcheck"
+    },
+    {
+      "name": "ads_s3_bucket",
+      "connect_timeout": "3s",
+      "port": "80",
+      "address": "com.ft.ads-static-content.s3-website-eu-west-1.amazonaws.com",
+      "first_byte_timeout": "1s",
+      "max_conn": 200,
+      "between_bytes_timeout": "1s",
+      "healthcheck": "ads_s3_bucket_healthcheck"
+    },
+    {
+      "name": "access",
+      "connect_timeout": "3s",
+      "port": "80",
+      "address": "access.ft.com",
+      "first_byte_timeout": "1s",
+      "max_conn": 200,
+      "between_bytes_timeout": "1s",
+      "healthcheck": "access_healthcheck"
+    },
+    {
+      "name": "fastft",
+      "connect_timeout": "3s",
+      "port": "80",
+      "address": "fastft.glb.ft.com",
+      "first_byte_timeout": "1s",
+      "max_conn": 200,
+      "between_bytes_timeout": "1s",
+      "healthcheck": "fastft_healthcheck"
+    },
+    {
+      "name": "access_test",
+      "connect_timeout": "3s",
+      "port": "80",
+      "address": "access.test.ft.com",
+      "first_byte_timeout": "1s",
+      "max_conn": 200,
+      "between_bytes_timeout": "1s",
+      "healthcheck": "access_test_healthcheck"
+    },
+    {
+      "name": "test",
+      "connect_timeout": "3s",
+      "port": "80",
+      "address": "ft-next-narcissus.herokuapp.com",
+      "first_byte_timeout": "1s",
+      "max_conn": 200,
+      "between_bytes_timeout": "1s",
+      "healthcheck": "test_healthcheck"
+    }
+  ],
+  "healthchecks": [
+    {
+      "name": "falcon_healthcheck",
+      "method": "HEAD",
+      "path": "/itm/site_status.html",
+      "http_version": "1.1",
+      "host": "render.prod.ft.com",
+      "threshold": 1,
+      "window": 2,
+      "timeout": "5s",
+      "initial": 1,
+      "expected_response": 200,
+      "interval": "1s"
+    },
+    {
+      "name": "ig_healthcheck",
+      "method": "HEAD",
+      "path": "/sureroute.html",
+      "http_version": "1.1",
+      "host": "ig.ft.com",
+      "threshold": 1,
+      "window": 2,
+      "timeout": "5s",
+      "initial": 1,
+      "expected_response": 200,
+      "interval": "1s"
+    },
+    {
+      "name": "ads_s3_bucket_healthcheck",
+      "method": "HEAD",
+      "path": "/indexdg.html",
+      "http_version": "1.1",
+      "host": "com.ft.ads-static-content.s",
+      "threshold": 1,
+      "window": 2,
+      "timeout": "5s",
+      "initial": 1,
+      "expected_response": 200,
+      "interval": "1s"
+    },
+    {
+      "name": "access_healthcheck",
+      "method": "HEAD",
+      "path": "/__gtg",
+      "http_version": "1.1",
+      "host": "access.ft.com",
+      "threshold": 1,
+      "window": 2,
+      "timeout": "5s",
+      "initial": 1,
+      "expected_response": 200,
+      "interval": "1s"
+    },
+    {
+      "name": "fastft_healthcheck",
+      "method": "HEAD",
+      "path": "/__gtg/",
+      "http_version": "1.1",
+      "host": "fastft.glb.ft.com",
+      "threshold": 1,
+      "window": 2,
+      "timeout": "5s",
+      "initial": 1,
+      "expected_response": 200,
+      "interval": "1s"
+    },
+    {
+      "name": "access_test_healthcheck",
+      "method": "HEAD",
+      "path": "/__gtg",
+      "http_version": "1.1",
+      "host": "access.test.ft.com",
+      "threshold": 1,
+      "window": 2,
+      "timeout": "5s",
+      "initial": 1,
+      "expected_response": 200,
+      "interval": "1s"
+    },
+    {
+      "name": "test_healthcheck",
+      "method": "HEAD",
+      "path": "/__gtg",
+      "http_version": "1.1",
+      "host": "ft-next-narcissus.herokuapp.com",
+      "threshold": 1,
+      "window": 2,
+      "timeout": "5s",
+      "initial": 1,
+      "expected_response": 200,
+      "interval": "1s"
+    }
+  ]
+}

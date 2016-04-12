@@ -15,7 +15,10 @@ var methods = {
 	'updateVcl' : null,
 	'setVclAsMain': null,
 	'validateVersion': {status:'ok'},
-	'activateVersion': null
+	'activateVersion': null,
+	'updateBackend': null,
+	'getBackend': [{name:'fake-backend'}],
+	'deleteBackendByName': null
 };
 
 var mock = {};
@@ -37,3 +40,4 @@ module.exports = function(){
 };
 
 module.exports.fakeServiceId = fakeServiceId;
+
