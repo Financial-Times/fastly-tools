@@ -6,6 +6,7 @@ require('array.prototype.find');
 const log = require('../lib/logger')();
 const exit = require('../lib/exit');
 const loadVcl = require('../lib/loadVcl');
+const loadBackendData = require('../lib/loadBackendData');
 
 const VCL_VALIDATION_ERROR = Symbol();
 
@@ -20,14 +21,16 @@ function task (folder, opts) {
 		env: false,
 		service: null,
 		vars: [],
-		verbose: false
+		verbose: false,
+		disableLogs: false,
+		backends: null
 	}, opts);
 
 	if (options.env) {
 		require('dotenv').load();
 	}
 
-	const log = require('../lib/logger')({verbose:options.verbose});
+	const log = require('../lib/logger')({verbose:options.verbose, disabled:options.disableLogs});
 
 	return co(function*() {
 		if (!options.service) {
@@ -103,8 +106,20 @@ function task (folder, opts) {
 			throw new Error('VCL failed validation for some unknown reason');
 		}
 
+		if(options.backends){
+			log.verbose(`Backends option specified.  Loading backends from ${options.backends}`);
+			let backendData = loadBackendData(options.backends);
+			let currentBackends = yield fastly.getBackend(newVersion);
+			yield Promise.all(currentBackends.map(b => fastly.deleteBackendByName(newVersion, b.name)));
+			log.info('Deleted old backends');
+			yield Promise.all(backendData.backends.map(b => fastly.updateBackend(newVersion, b)));
+			log.info('Upload new backends');
+		}
+
 		log.success('Your VCL has been deployed.  Have a nice cup of tea and relax');
 		log.art('tea', 'success');
+
+
 
 
 	}).catch((err => {
@@ -128,6 +143,7 @@ module.exports = function (program, utils) {
 		.option('-e, --env', 'Load environment variables from local .env file (use when deploying from a local machine')
 		.option('-s, --service <service>', 'REQUIRED.  The ID of the fastly service to deploy to.')
 		.option('-V --verbose', 'Verbose log output')
+		.option('b --backends <backends>', 'Upload the backends specified in <backends> vis the api')
 		.action(function(folder, options) {
 			if (folder) {
 				task(folder, options).catch(exit);
