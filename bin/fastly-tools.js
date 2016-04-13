@@ -4,6 +4,9 @@ const program = require('commander');
 const tasks = require('../tasks');
 const exit = require('../lib/exit');
 
+function list(val) {
+	return val.split(',');
+}
 
 program
 	.command('deploy [folder]')
@@ -15,9 +18,14 @@ program
 	.option('-V --verbose', 'Verbose log output')
 	.option('b --backends <backends>', 'Upload the backends specified in <backends> vis the api')
 	.action(function(folder, options) {
+		console.log('deploy', folder);
 		if (folder) {
 			tasks.deploy(folder, options).catch(exit);
 		} else {
 			exit('Please provide a folder where the .vcl is located');
 		}
 	});
+
+
+
+program.parse(process.argv);
