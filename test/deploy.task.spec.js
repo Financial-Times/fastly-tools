@@ -13,7 +13,7 @@ describe('Deploy Task', function(){
 	var deployVcl;
 
 	before(function(){
-		deployVcl = proxyquire('../tasks/deploy', {'fastly' : fastlyMock}).task;
+		deployVcl = proxyquire('../tasks/deploy', {'fastly' : fastlyMock});
 	});
 
 	afterEach(() => {
