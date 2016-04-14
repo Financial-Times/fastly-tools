@@ -4,7 +4,7 @@ const path = require('path');
 
 describe('Convert Task', () => {
 
-	const convert = require('../tasks/').convert;
+	const convert = require('../tasks/convert');
 	const fixtureFilePath = path.resolve(__dirname, 'fixtures/backends.vcl');
 	const fixtureJson = require('./fixtures/backends.json');
 
