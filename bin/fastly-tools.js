@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 const program = require('commander');
-const tasks = require('../tasks');
-const exit = require('../lib/exit');
+const log = require('../lib/logger');
+const exit = require('../lib/exit')(log);
 
 function list(val) {
 	return val.split(',');
@@ -18,11 +18,22 @@ program
 	.option('-V --verbose', 'Verbose log output')
 	.option('b --backends <backends>', 'Upload the backends specified in <backends> vis the api')
 	.action(function(folder, options) {
-		console.log('deploy', folder);
+		const deploy = require('../tasks/deploy');
 		if (folder) {
-			tasks.deploy(folder, options).catch(exit);
+			deploy(folder, options).catch(exit);
 		} else {
 			exit('Please provide a folder where the .vcl is located');
+		}
+	});
+
+program.command('convert [vclFile]')
+	.description('Converts a list of backends written in vcl to json accepted by the fastly API')
+	.action(function(vclFile) {
+		const convert = require('../tasks/convert')
+		if (vclFile) {
+			convert(vclFile, {output:true});
+		} else {
+			exit('Please provide a file path to your vcl backends');
 		}
 	});
 
