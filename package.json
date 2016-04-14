@@ -1,5 +1,5 @@
 {
-  "name": "fastly-tools",
+  "name": "@financial-times/fastly-tools",
   "version": "1.0.0",
   "description": "Command Line Utility for interacting with fastly",
   "main": "main.js",
