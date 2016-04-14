@@ -31,7 +31,7 @@ program.command('convert [vclFile]')
 	.action(function(vclFile) {
 		const convert = require('../tasks/convert')
 		if (vclFile) {
-			convert(vclFile);
+			convert(vclFile, {output:true});
 		} else {
 			exit('Please provide a file path to your vcl backends');
 		}
