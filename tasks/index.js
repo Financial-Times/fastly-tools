@@ -2,5 +2,6 @@
 
 
 module.exports = {
-	deploy : require('./deploy')
+	deploy : require('./deploy'),
+	convert: require('./convert')
 };
