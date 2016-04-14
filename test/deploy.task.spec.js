@@ -23,9 +23,15 @@ describe('Deploy Task', function(){
 	});
 
 	it('Should be able to deploy some vcl', function(){
-		return deployVcl(path.resolve(__dirname, './fixtures/vcl')+'/', {service:fastlyMock.fakeServiceId, disableLogs:false}).then(function(){
-			sinon.assert.called(fastlyMock().updateVcl);
-		});
+		return deployVcl(
+			path.resolve(__dirname, './fixtures/vcl')+'/',
+			{
+				service:fastlyMock.fakeServiceId,
+				disableLogs:true
+			})
+			.then(function(){
+				sinon.assert.called(fastlyMock().updateVcl);
+			});
 	});
 
 	it('Should replace placeholders with environment vars', function(){
@@ -41,13 +47,20 @@ describe('Deploy Task', function(){
 			});
 	});
 
-	it('Should upload given backends and healthchecks from .json file via the api', () => {
+	it('Should upload given backends from .json file via the api', () => {
 		let fixture = require('./fixtures/backends.json');
-		return deployVcl(path.resolve(__dirname, './fixtures/vcl')+'/', {service:fastlyMock.fakeServiceId, backends:'test/fixtures/backends.json', disableLogs:true}).then(function(){
-			let callCount = fastlyMock().updateBackend.callCount;
+		return deployVcl(
+			path.resolve(__dirname, './fixtures/vcl')+'/',
+			{
+				service:fastlyMock.fakeServiceId,
+				backends:'test/fixtures/backends.json',
+				disableLogs:true
+			})
+			.then(function(){
+			let callCount = fastlyMock().createBackend.callCount;
 			expect(callCount).to.equal(fixture.backends.length);
 			for(var i=0; i<callCount; i++){
-				let call = fastlyMock().updateBackend.getCall(i);
+				let call = fastlyMock().createBackend.getCall(i);
 				try{
 					expect(call.args[1]).to.deep.equal(fixture.backends[i]);
 				}catch(e){
@@ -55,27 +68,64 @@ describe('Deploy Task', function(){
 					console.log(fixture.backends[i]);
 					throw err;
 				}
-
 			}
 		});
 	});
 
-	it('Should upload given backends and healthchecks from .vcl file via the api', () => {
+	it('Should upload given backends from .vcl file via the api', () => {
 		let fixture = require('./fixtures/backends.json');
-		return deployVcl(path.resolve(__dirname, './fixtures/vcl')+'/', {service:fastlyMock.fakeServiceId, backends:'test/fixtures/backends.vcl', disableLogs:true}).then(function(){
-			let callCount = fastlyMock().updateBackend.callCount;
-			expect(callCount).to.equal(fixture.backends.length);
-			for(var i=0; i<callCount; i++){
-				let call = fastlyMock().updateBackend.getCall(i);
-				try{
+		return deployVcl(
+			path.resolve(__dirname, './fixtures/vcl')+'/',
+			{
+				service:fastlyMock.fakeServiceId,
+				backends:'test/fixtures/backends.vcl',
+				disableLogs:true
+			})
+			.then(function(){
+				let callCount = fastlyMock().createBackend.callCount;
+				expect(callCount).to.equal(fixture.backends.length);
+				for(var i=0; i<callCount; i++){
+					let call = fastlyMock().createBackend.getCall(i);
 					expect(call.args[1]).to.deep.equal(fixture.backends[i]);
-				}catch(e){
-					console.log(call.args[1]);
-					console.log(fixture.backends[i]);
-					throw err;
 				}
+			});
+	});
 
-			}
-		});
+	it('Should upload given healthchecks from .json file via the api', () => {
+		let fixture = require('./fixtures/backends.json');
+		return deployVcl(
+			path.resolve(__dirname, './fixtures/vcl')+'/',
+			{
+				service:fastlyMock.fakeServiceId,
+				backends:'test/fixtures/backends.json',
+				disableLogs:true
+			})
+			.then(function(){
+				let callCount = fastlyMock().createHealthcheck.callCount;
+				expect(callCount).to.equal(fixture.healthchecks.length);
+				for(var i=0; i<callCount; i++){
+					let call = fastlyMock().createHealthcheck.getCall(i);
+					expect(call.args[1]).to.deep.equal(fixture.healthchecks[i]);
+				}
+			});
+	});
+
+	it('Should upload given healthchecks from .vcl file via the api', () => {
+		let fixture = require('./fixtures/backends.json');
+		return deployVcl(
+			path.resolve(__dirname, './fixtures/vcl')+'/',
+			{
+				service:fastlyMock.fakeServiceId,
+				backends:'test/fixtures/backends.vcl',
+				disableLogs:true
+			})
+			.then(function(){
+				let callCount = fastlyMock().createHealthcheck.callCount;
+				expect(callCount).to.equal(fixture.healthchecks.length);
+				for(var i=0; i<callCount; i++){
+					let call = fastlyMock().createHealthcheck.getCall(i);
+					expect(call.args[1]).to.deep.equal(fixture.healthchecks[i]);
+				}
+			});
 	});
 });

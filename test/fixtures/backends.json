@@ -2,72 +2,72 @@
   "backends": [
     {
       "name": "falcon",
-      "connect_timeout": "3s",
+      "connect_timeout": 3000,
       "port": "80",
-      "address": "render.prod.ft.com",
-      "first_byte_timeout": "1s",
+      "hostname": "render.prod.ft.com",
+      "first_byte_timeout": 1000,
       "max_conn": 200,
-      "between_bytes_timeout": "1s",
+      "between_bytes_timeout": 1000,
       "healthcheck": "falcon_healthcheck"
     },
     {
       "name": "ig",
-      "connect_timeout": "3s",
+      "connect_timeout": 3000,
       "port": "80",
-      "address": "ig.ft.com",
-      "first_byte_timeout": "1s",
+      "hostname": "ig.ft.com",
+      "first_byte_timeout": 1000,
       "max_conn": 200,
-      "between_bytes_timeout": "1s",
+      "between_bytes_timeout": 1000,
       "healthcheck": "ig_healthcheck"
     },
     {
       "name": "ads_s3_bucket",
-      "connect_timeout": "3s",
+      "connect_timeout": 3000,
       "port": "80",
-      "address": "com.ft.ads-static-content.s3-website-eu-west-1.amazonaws.com",
-      "first_byte_timeout": "1s",
+      "hostname": "com.ft.ads-static-content.s3-website-eu-west-1.amazonaws.com",
+      "first_byte_timeout": 1000,
       "max_conn": 200,
-      "between_bytes_timeout": "1s",
+      "between_bytes_timeout": 1000,
       "healthcheck": "ads_s3_bucket_healthcheck"
     },
     {
       "name": "access",
-      "connect_timeout": "3s",
+      "connect_timeout": 3000,
       "port": "80",
-      "address": "access.ft.com",
-      "first_byte_timeout": "1s",
+      "hostname": "access.ft.com",
+      "first_byte_timeout": 1000,
       "max_conn": 200,
-      "between_bytes_timeout": "1s",
+      "between_bytes_timeout": 1000,
       "healthcheck": "access_healthcheck"
     },
     {
       "name": "fastft",
-      "connect_timeout": "3s",
+      "connect_timeout": 3000,
       "port": "80",
-      "address": "fastft.glb.ft.com",
-      "first_byte_timeout": "1s",
+      "hostname": "fastft.glb.ft.com",
+      "first_byte_timeout": 1000,
       "max_conn": 200,
-      "between_bytes_timeout": "1s",
+      "between_bytes_timeout": 1000,
       "healthcheck": "fastft_healthcheck"
     },
     {
       "name": "access_test",
-      "connect_timeout": "3s",
+      "connect_timeout": 3000,
       "port": "80",
-      "address": "access.test.ft.com",
-      "first_byte_timeout": "1s",
+      "hostname": "access.test.ft.com",
+      "first_byte_timeout": 1000,
       "max_conn": 200,
-      "between_bytes_timeout": "1s",
+      "between_bytes_timeout": 1000,
       "healthcheck": "access_test_healthcheck"
     },
     {
       "name": "test",
-      "connect_timeout": "3s",
+      "connect_timeout": 3000,
       "port": "80",
-      "address": "ft-next-narcissus.herokuapp.com",
-      "first_byte_timeout": "1s",
+      "hostname": "ft-next-narcissus.herokuapp.com",
+      "first_byte_timeout": 1000,
       "max_conn": 200,
-      "between_bytes_timeout": "1s",
+      "between_bytes_timeout": 1000,
       "healthcheck": "test_healthcheck"
     }
   ],
@@ -80,10 +80,10 @@
       "host": "render.prod.ft.com",
       "threshold": 1,
       "window": 2,
-      "timeout": "5s",
+      "timeout": 5000,
       "initial": 1,
       "expected_response": 200,
-      "interval": "1s"
+      "interval": 1000
     },
     {
       "name": "ig_healthcheck",
@@ -93,10 +93,10 @@
       "host": "ig.ft.com",
       "threshold": 1,
       "window": 2,
-      "timeout": "5s",
+      "timeout": 5000,
       "initial": 1,
       "expected_response": 200,
-      "interval": "1s"
+      "interval": 1000
     },
     {
       "name": "ads_s3_bucket_healthcheck",
@@ -106,10 +106,10 @@
       "host": "com.ft.ads-static-content.s",
       "threshold": 1,
       "window": 2,
-      "timeout": "5s",
+      "timeout": 5000,
       "initial": 1,
       "expected_response": 200,
-      "interval": "1s"
+      "interval": 1000
     },
     {
       "name": "access_healthcheck",
@@ -119,10 +119,10 @@
       "host": "access.ft.com",
       "threshold": 1,
       "window": 2,
-      "timeout": "5s",
+      "timeout": 5000,
       "initial": 1,
       "expected_response": 200,
-      "interval": "1s"
+      "interval": 1000
     },
     {
       "name": "fastft_healthcheck",
@@ -132,10 +132,10 @@
       "host": "fastft.glb.ft.com",
       "threshold": 1,
       "window": 2,
-      "timeout": "5s",
+      "timeout": 5000,
       "initial": 1,
       "expected_response": 200,
-      "interval": "1s"
+      "interval": 1000
     },
     {
       "name": "access_test_healthcheck",
@@ -145,10 +145,10 @@
       "host": "access.test.ft.com",
       "threshold": 1,
       "window": 2,
-      "timeout": "5s",
+      "timeout": 5000,
       "initial": 1,
       "expected_response": 200,
-      "interval": "1s"
+      "interval": 1000
     },
     {
       "name": "test_healthcheck",
@@ -158,10 +158,10 @@
       "host": "ft-next-narcissus.herokuapp.com",
       "threshold": 1,
       "window": 2,
-      "timeout": "5s",
+      "timeout": 5000,
       "initial": 1,
       "expected_response": 200,
-      "interval": "1s"
+      "interval": 1000
     }
   ]
 }

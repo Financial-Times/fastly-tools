@@ -3,8 +3,7 @@ const fs = require('fs');
 const co = require('co');
 require('array.prototype.includes');
 require('array.prototype.find');
-const log = require('../lib/logger')();
-const exit = require('../lib/exit');
+
 const loadVcl = require('../lib/loadVcl');
 const loadBackendData = require('../lib/loadBackendData');
 
@@ -29,6 +28,7 @@ function task (folder, opts) {
 	}
 
 	const log = require('../lib/logger')({verbose:options.verbose, disabled:options.disableLogs});
+	const exit = require('../lib/exit')(log);
 
 	return co(function*() {
 		if (!options.service) {
@@ -143,7 +143,7 @@ function task (folder, opts) {
 		}else{
 			log.error(err.stack);
 		}
-		exit('Bailing...');
+		exit('Bailing...', log);
 	}));
 }
 
