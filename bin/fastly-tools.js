@@ -30,7 +30,7 @@ program.command('convert [vclFile]')
 	.description('Converts a list of backends written in vcl to json accepted by the fastly API')
 	.action(function(vclFile) {
 		if (vclFile) {
-			tasks.convert(vclFile).catch(exit);
+			tasks.convert(vclFile);
 		} else {
 			exit('Please provide a file path to your vcl backends');
 		}
