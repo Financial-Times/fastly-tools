@@ -3,17 +3,14 @@ const fs = require('fs');
 const co = require('co');
 require('array.prototype.includes');
 require('array.prototype.find');
-const log = require('../lib/logger')();
-const exit = require('../lib/exit');
+
 const loadVcl = require('../lib/loadVcl');
 const loadBackendData = require('../lib/loadBackendData');
 
 const VCL_VALIDATION_ERROR = Symbol();
 
 
-function list(val) {
-	return val.split(',');
-}
+
 
 function task (folder, opts) {
 	let options = Object.assign({
@@ -31,6 +28,7 @@ function task (folder, opts) {
 	}
 
 	const log = require('../lib/logger')({verbose:options.verbose, disabled:options.disableLogs});
+	const exit = require('../lib/exit')(log);
 
 	return co(function*() {
 		if (!options.service) {
@@ -68,6 +66,32 @@ function task (folder, opts) {
 		let newVersion = cloneResponse.number;
 		log.info('Cloned new version');
 
+		//upload backends via the api
+		if(options.backends){
+			log.verbose(`Backends option specified.  Loading backends from ${options.backends}`);
+			let backendData = loadBackendData(options.backends);
+			let currentBackends = yield fastly.getBackend(newVersion);
+			log.verbose('Delete existing backends');
+			yield Promise.all(currentBackends.map(b => fastly.deleteBackendByName(newVersion, b.name)));
+			log.info('Deleted old backends');
+			yield Promise.all(backendData.backends.map(b => {
+				log.verbose(`upload backend ${b.name}`);
+				return fastly.createBackend(newVersion, b).then(() => log.verbose(`✓ Backend ${b.name} uploaded`));
+			}));
+			log.info('Uploaded new backends');
+
+			log.verbose('Now, delete all existing healthchecks');
+			let currentHealthchecks = yield fastly.getHealthcheck(newVersion);
+			yield Promise.all(currentHealthchecks.map(h => fastly.deleteHealthcheck(newVersion, h.name)));
+			log.info('Deleted old healthchecks');
+			log.verbose(`About to upload ${backendData.healthchecks.length} healthchecks`);
+			yield Promise.all(backendData.healthchecks.map(h => {
+				log.verbose(`upload healthcheck ${h.name}`);
+				return fastly.createHealthcheck(newVersion, h);
+			}));
+			log.info('Uploaded health checks');
+		}
+
 		// delete old vcl
 		let oldVcl = yield fastly.getVcl(newVersion);
 		yield Promise.all(oldVcl.map(vcl => {
@@ -87,33 +111,21 @@ function task (folder, opts) {
 		}));
 
 		// set the main vcl file
-		log.info(`Set "${options.main}" as the main entry point`);
+		log.verbose(`Try to set "${options.main}" as the main entry point`);
 		yield fastly.setVclAsMain(newVersion, options.main);
+		log.info(`"${options.main}" set as the main entry point`);
 
 		// validate
 		log.verbose(`Validate version ${newVersion}`);
 		let validationResponse = yield fastly.validateVersion(newVersion)
-			.catch(err => {
-				let error = new Error('VCL Validation Error');
-				error.type = VCL_VALIDATION_ERROR;
-				error.validation = err;
-				throw err;
-			});
 		if (validationResponse.status === 'ok') {
 			log.info(`Version  ${newVersion} looks ok`);
 			yield fastly.activateVersion(newVersion);
 		} else {
-			throw new Error('VCL failed validation for some unknown reason');
-		}
-
-		if(options.backends){
-			log.verbose(`Backends option specified.  Loading backends from ${options.backends}`);
-			let backendData = loadBackendData(options.backends);
-			let currentBackends = yield fastly.getBackend(newVersion);
-			yield Promise.all(currentBackends.map(b => fastly.deleteBackendByName(newVersion, b.name)));
-			log.info('Deleted old backends');
-			yield Promise.all(backendData.backends.map(b => fastly.updateBackend(newVersion, b)));
-			log.info('Upload new backends');
+			let error = new Error('VCL Validation Error');
+			error.type = VCL_VALIDATION_ERROR;
+			error.validation = validationResponse.msg;
+			throw error;
 		}
 
 		log.success('Your VCL has been deployed.');
@@ -123,34 +135,17 @@ function task (folder, opts) {
 
 
 	}).catch((err => {
-		if(err.type && err.type === VCL_VALIDATION_ERROR){
+		if(typeof err === 'string'){
+			log.error(err);
+		}else if(err.type && err.type === VCL_VALIDATION_ERROR){
 			log.error('VCL Validation Error');
 			log.error(err.validation);
 		}else{
 			log.error(err.stack);
 		}
-		exit('Bailing...');
+		exit('Bailing...', log);
 	}));
 }
 
 
-module.exports = function (program, utils) {
-	program
-		.command('deploy-vcl [folder]')
-		.description('Deploys VCL in [folder] to the specified fastly service.  Requires FASTLY_KEY env var')
-		.option('-m, --main <main>', 'Set the name of the main vcl file (the entry point).  Defaults to "main.vcl"')
-		.option('-v, --vars <vars>', 'A way of injecting environment vars into the VCL.  So if you pass --vars AUTH_KEY,FOO the values {$AUTH_KEY} and ${FOO} in the vcl will be replaced with the values of the environmemnt variable.  If you include SERVICEID it will be populated with the current --service option', list)
-		.option('-e, --env', 'Load environment variables from local .env file (use when deploying from a local machine')
-		.option('-s, --service <service>', 'REQUIRED.  The ID of the fastly service to deploy to.')
-		.option('-V --verbose', 'Verbose log output')
-		.option('b --backends <backends>', 'Upload the backends specified in <backends> vis the api')
-		.action(function(folder, options) {
-			if (folder) {
-				task(folder, options).catch(exit);
-			} else {
-				exit('Please provide a folder where the .vcl is located');
-			}
-		});
-};
-
-module.exports.task = task;
+module.exports = task;

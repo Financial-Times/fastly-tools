@@ -16,9 +16,12 @@ var methods = {
 	'setVclAsMain': null,
 	'validateVersion': {status:'ok'},
 	'activateVersion': null,
-	'updateBackend': null,
+	'createBackend': null,
 	'getBackend': [{name:'fake-backend'}],
-	'deleteBackendByName': null
+	'deleteBackendByName': null,
+	'getHealthcheck': [{name:'fake-healthcheck'}],
+	'deleteHealthcheck' : null,
+	'createHealthcheck': null
 };
 
 var mock = {};
