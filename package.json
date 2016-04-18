@@ -34,6 +34,7 @@
     "array.prototype.includes": "^1.0.0",
     "co": "^4.6.0",
     "colors": "^1.1.2",
+    "commander": "^2.9.0",
     "dotenv": "^2.0.0",
     "fastly": "github:financial-times/fastly",
     "node-fetch": "^1.5.0",
