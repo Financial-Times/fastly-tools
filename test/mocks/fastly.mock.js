@@ -43,4 +43,3 @@ module.exports = function(){
 };
 
 module.exports.fakeServiceId = fakeServiceId;
-

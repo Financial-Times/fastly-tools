@@ -11,7 +11,8 @@ describe('Integration Tests', () => {
 
 	describe('Fastly API', () => {
 
-		let fastly, testServiceId;
+		let fastly;
+		let testServiceId;
 
 		function createTestService(){
 			return fetch('https://api.fastly.com/service', {
@@ -34,7 +35,7 @@ describe('Integration Tests', () => {
 				}
 			});
 		}
-		
+
 		before(() => {
 			return createTestService()
 				.then(svc => {

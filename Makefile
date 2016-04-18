@@ -9,6 +9,3 @@ test-int:
 	mocha int-tests/ --require loadvars.js
 
 test: verify test-unit
-
-verify: _verify_eslint _verify_scss_lint
-	@echo $(DONE)

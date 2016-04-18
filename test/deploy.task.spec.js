@@ -4,7 +4,6 @@ var expect = require('chai').expect;
 process.env.FASTLY_APIKEY ='12345';
 var proxyquire = require('proxyquire').noCallThru().noPreserveCache();
 var fastlyMock = require('./mocks/fastly.mock.js');
-const fs = require('fs');
 
 var path = require('path');
 
@@ -63,7 +62,7 @@ describe('Deploy Task', function(){
 				let call = fastlyMock().createBackend.getCall(i);
 				try{
 					expect(call.args[1]).to.deep.equal(fixture.backends[i]);
-				}catch(e){
+				}catch(err){
 					console.log(call.args[1]);
 					console.log(fixture.backends[i]);
 					throw err;
