@@ -1,5 +1,4 @@
 'use strict';
-const fs = require('fs');
 const co = require('co');
 require('array.prototype.includes');
 require('array.prototype.find');

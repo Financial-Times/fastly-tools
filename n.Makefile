@@ -25,7 +25,7 @@ clea%:
 	@$(DONE)
 
 # install
-instal%: node_modules bower_components _install_scss_lint .editorconfig .eslintrc.json .scss-lint.yml .env webpack.config.js
+instal%: node_modules bower_components _install_scss_lint .editorconfig .eslintrc.js .scss-lint.yml .env webpack.config.js
 	@$(MAKE) $(foreach f, $(shell find functions/* -type d -maxdepth 0 2>/dev/null), $f/node_modules)
 	@$(DONE)
 
@@ -40,12 +40,12 @@ verif%: _verify_lintspaces _verify_eslint _verify_scss_lint
 # build (includes build-production)
 buil%: public/__about.json
 	@if [ -e webpack.config.js ]; then webpack $(if $(findstring build-production,$@),--bail,--dev); fi
-	@if [ -e Procfile ] && [ $(findstring build-production,$@) == "build-production" ]; then haikro build; fi
+	@if [ -e Procfile ] && [ "$(findstring build-production,$@)" == "build-production" ]; then haikro build; fi
 	@$(DONE)
 
 # watch
 watc%:
-	@if [ -e webpack.config.js ]; then webpack --watch; fi
+	@if [ -e webpack.config.js ]; then webpack --watch --dev; fi
 	@$(DONE)
 
 #
@@ -74,17 +74,17 @@ _install_scss_lint:
 	@if [ ! -x "$(shell which scss-lint)" ] && [ "$(shell $(call GLOB,'*.scss'))" != "" ]; then gem install scss-lint -v 0.35.0 && $(DONE); fi
 
 # Manage various dot/config files if they're in the .gitignore
-.editorconfig .eslintrc.json .scss-lint.yml webpack.config.js: n.Makefile
+.editorconfig .eslintrc.js .scss-lint.yml webpack.config.js: n.Makefile
 	@if $(call IS_GIT_IGNORED); then curl -sL https://raw.githubusercontent.com/Financial-Times/n-makefile/$(VERSION)/config/$@ > $@ && $(DONE); fi
 
 .env:
 	@heroku auth:whoami &>/dev/null || (echo Please make sure the Heroku CLI is installed and authenticated by running `heroku auth:token`.  See more https://toolbelt.heroku.com/. && exit 1)
-	@if $(call IS_GIT_IGNORED) && [ -e package.json ]; then ($(call CONFIG_VARS,development) > .env && $(DONE)) || (echo "Cannot get the API key for the config vars service because you need to be added to the ft-next-config-vars service on Heroku with operate permissions.  Do that here - https://docs.google.com/spreadsheets/d/1mbJQYJOgXAH2KfgKUM1Vgxq8FUIrahumb39wzsgStu0 (or ask someone to do it for you)." && exit 1); fi
+	@if $(call IS_GIT_IGNORED) && [ -e package.json ]; then ($(call CONFIG_VARS,development) > .env && $(DONE)) || (echo "Cannot get config vars for this service.  Check you are added to the ft-next-config-vars service on Heroku with operate permissions.  Do that here - https://docs.google.com/spreadsheets/d/1mbJQYJOgXAH2KfgKUM1Vgxq8FUIrahumb39wzsgStu0 (or ask someone to do it for you).  Check that your package.json's name property is correct.  Check that your project has config-vars set up in models/development.js." && exit 1); fi
 
 # VERIFY SUB-TASKS
 
 _verify_eslint:
-	@if [ -e .eslintrc.json ]; then $(call GLOB,'*.js') | xargs eslint && $(DONE); fi
+	@if [ -e .eslintrc.js ]; then $(call GLOB,'*.js') | xargs eslint && $(DONE); fi
 
 _verify_lintspaces:
 	@if [ -e .editorconfig ] && [ -e package.json ]; then $(call GLOB) | xargs lintspaces -e .editorconfig -i js-comments,html-comments && $(DONE); fi
@@ -109,7 +109,7 @@ GLOB = git ls-files $1 | xargs -I {} find {} ! -type l
 NPM_INSTALL = npm prune --production=false && npm install
 JSON_GET_VALUE = grep $1 | head -n 1 | sed 's/[," ]//g' | cut -d : -f 2
 IS_GIT_IGNORED = grep -q $(if $1, $1, $@) .gitignore
-VERSION = master
+VERSION = v0.0.79
 APP_NAME = $(shell cat package.json 2>/dev/null | $(call JSON_GET_VALUE,name))
 DONE = echo ✓ $@ done
 CONFIG_VARS = curl -fsL https://ft-next-config-vars.herokuapp.com/$1/$(if $2,$2,$(call APP_NAME)).env -H "Authorization: `heroku config:get APIKEY --app ft-next-config-vars`"
