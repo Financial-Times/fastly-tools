@@ -70,22 +70,26 @@ function task (folder, opts) {
 			const currentHealthchecks = yield fastly.getHealthcheck(newVersion);
 			yield Promise.all(currentHealthchecks.map(h => fastly.deleteHealthcheck(newVersion, h.name)));
 			log.info('Deleted old healthchecks');
-			log.verbose(`About to upload ${backendData.healthchecks.length} healthchecks`);
-			yield Promise.all(backendData.healthchecks.map(h => {
-				log.verbose(`upload healthcheck ${h.name}`);
-				return fastly.createHealthcheck(newVersion, h).then(() => log.verbose(`✓ Healthcheck ${h.name} uploaded`));
-			}));
-			log.info('Uploaded new healthchecks');
+			if (backendData.healthchecks) {
+				log.verbose(`About to upload ${backendData.healthchecks.length} healthchecks`);
+				yield Promise.all(backendData.healthchecks.map(h => {
+					log.verbose(`upload healthcheck ${h.name}`);
+					return fastly.createHealthcheck(newVersion, h).then(() => log.verbose(`✓ Healthcheck ${h.name} uploaded`));
+				}));
+				log.info('Uploaded new healthchecks');
+			}
 
 			log.verbose('Now, delete all existing conditions');
 			const currentConditions = yield fastly.getConditions(newVersion)
 			yield Promise.all(currentConditions.map(h => fastly.deleteCondition(newVersion, h.name)));
 			log.info('Deleted old conditions');
-			yield Promise.all(backendData.conditions.map(c => {
-				log.verbose(`upload condition ${c.name}`);
-				return fastly.createCondition(newVersion, c).then(() => log.verbose(`✓ Condition ${c.name} uploaded`));
-			}));
-			log.info('Uploaded new conditions');
+			if (backendData.conditions) {
+				yield Promise.all(backendData.conditions.map(c => {
+					log.verbose(`upload condition ${c.name}`);
+					return fastly.createCondition(newVersion, c).then(() => log.verbose(`✓ Condition ${c.name} uploaded`));
+				}));
+				log.info('Uploaded new conditions');
+			}
 
 			log.verbose('Now, delete all existing backends');
 			const currentBackends = yield fastly.getBackend(newVersion);
