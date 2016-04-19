@@ -126,7 +126,7 @@ function task (folder, opts) {
 		log.verbose(`Validate version ${newVersion}`);
 		let validationResponse = yield fastly.validateVersion(newVersion)
 		if (validationResponse.status === 'ok') {
-			log.info(`Version  ${newVersion} looks ok`);
+			log.info(`Version ${newVersion} looks ok`);
 			yield fastly.activateVersion(newVersion);
 		} else {
 			let error = new Error('VCL Validation Error');
