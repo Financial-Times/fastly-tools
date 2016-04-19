@@ -1,15 +1,11 @@
 'use strict';
 const co = require('co');
 require('array.prototype.includes');
-require('array.prototype.find');
 
 const loadVcl = require('../lib/loadVcl');
 const loadBackendData = require('../lib/loadBackendData');
 
 const VCL_VALIDATION_ERROR = Symbol();
-
-
-
 
 function task (folder, opts) {
 	let options = Object.assign({
@@ -145,6 +141,5 @@ function task (folder, opts) {
 		exit('Bailing...', log);
 	}));
 }
-
 
 module.exports = task;

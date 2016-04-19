@@ -32,7 +32,6 @@
     "sinon": "^1.17.3"
   },
   "dependencies": {
-    "array.prototype.find": "^2.0.0",
     "array.prototype.includes": "^1.0.0",
     "co": "^4.6.0",
     "colors": "^1.1.2",
