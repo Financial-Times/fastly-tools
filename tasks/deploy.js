@@ -48,11 +48,11 @@ function task (folder, opts) {
 			process.env.SERVICEID = serviceId;
 		}
 
-		let vcls = loadVcl(folder, options.vars);
+		const vcls = loadVcl(folder, options.vars);
 
 		// get the current service and active version
-		let service = yield fastly.getServices().then(services => services.find(s => s.id === serviceId));
-		let activeVersion = service.version;
+		const service = yield fastly.getServices().then(services => services.find(s => s.id === serviceId));
+		const activeVersion = service.version;
 
 		// clone new version from current active version
 		log.verbose(`Cloning active version ${activeVersion} of ${service.name}`);

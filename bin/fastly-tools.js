@@ -26,17 +26,4 @@ program
 		}
 	});
 
-program.command('convert [vclFile]')
-	.description('Converts a list of backends written in vcl to json accepted by the fastly API')
-	.action(function(vclFile) {
-		const convert = require('../tasks/convert')
-		if (vclFile) {
-			convert(vclFile, {output:true});
-		} else {
-			exit('Please provide a file path to your vcl backends');
-		}
-	});
-
-
-
 program.parse(process.argv);
