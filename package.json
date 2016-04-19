@@ -25,11 +25,13 @@
   "homepage": "https://github.com/Financial-Times/fastly-tools#readme",
   "devDependencies": {
     "chai": "^3.5.0",
+    "debug": "^2.2.0",
     "eslint": "^2.8.0",
     "lintspaces-cli": "^0.1.1",
     "mocha": "^2.4.5",
     "proxyquire": "^1.7.4",
-    "sinon": "^1.17.3"
+    "sinon": "^1.17.3",
+    "tap": "^5.7.1"
   },
   "dependencies": {
     "array.prototype.includes": "^1.0.0",
@@ -37,8 +39,9 @@
     "colors": "^1.1.2",
     "commander": "^2.9.0",
     "dotenv": "^2.0.0",
-    "fastly": "github:financial-times/fastly",
     "node-fetch": "^1.5.0",
+    "q": "^1.4.1",
+    "request": "^2.72.0",
     "vcl-parser": "^1.0.0-alpha2"
   }
 }

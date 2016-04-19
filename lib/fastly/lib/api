@@ -1,0 +1,775 @@
+// Fastly API 2014-07-30, http://docs.fastly.com/api/config',
+
+// GET = get, POST = update, PUT = create, DELETE = delete
+
+module.exports = [
+    {
+        method: 'GET',
+        type: 'backend',
+        fn: 'getBackendByName',
+        url: '/service/%service_id/version/%version/backend/%name'
+    },
+    {
+        method: 'POST',
+        type: 'backend',
+        fn: 'createBackend',
+        url: '/service/%service_id/version/%version/backend',
+        
+    },
+    {
+        method: 'GET',
+        type: 'backend',
+        fn: 'getBackend',
+        url: '/service/%service_id/version/%version/backend',
+        
+    },
+    {
+        method: 'DELETE',
+        type: 'backend',
+        fn: 'deleteBackendByName',
+        url: '/service/%service_id/version/%version/backend/%name',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'backend',
+        fn: 'updateBackend',
+        url: '/service/%service_id/version/%version/backend/%old_name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'billing',
+        fn: 'getBillingByDate',
+        url: '/billing/year/%year/month/%month',
+        
+    },
+    {
+        method: 'GET',
+        type: 'cache',
+        fn: 'getCacheSettingsByName',
+        url: '/service/%service_id/version/%version/cache_settings/%name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'cache',
+        fn: 'getCacheSettings',
+        url: '/service/%service_id/version/%version/cache_settings',
+        
+    },
+    {
+        method: 'POST',
+        type: 'cache',
+        fn: 'updateCacheSettings',
+        url: '/service/%service_id/version/%version/cache_settings',
+        
+    },
+    {
+        method: 'DELETE',
+        type: 'cache',
+        fn: 'deleteCacheSettings',
+        url: '/service/%service_id/version/%version/cache_settings/%name',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'cache',
+        fn: 'deleteCacheSettings',
+        url: '/service/%service_id/version/%version/cache_settings/%old_name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'condition',
+        fn: '',
+        url: '/service/%service_id/version/%version/condition/%name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'condition',
+        fn: '',
+        url: '/service/%service_id/version/%version/condition',
+        
+    },
+    {
+        method: 'POST',
+        type: 'condition',
+        fn: '',
+        url: '/service/%service_id/version/%version/condition',
+        
+    },
+    {
+        method: 'DELETE',
+        type: 'condition',
+        fn: '',
+        url: '/service/%service_id/version/%version/condition/%name',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'condition',
+        fn: '',
+        url: '/service/%service_id/version/%version/condition/%old_name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'content',
+        fn: '',
+        url: '/content/edge_check',
+        
+    },
+    {
+        method: 'GET',
+        type: 'customer',
+        fn: '',
+        url: '/current_customer',
+        
+    },
+    {
+        method: 'GET',
+        type: 'customer',
+        fn: '',
+        url: '/customer/%id',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'customer',
+        fn: '',
+        url: '/customer/%id',
+        
+    },
+    {
+        method: 'GET',
+        type: 'customer',
+        fn: '',
+        url: '/customer/%id/users',
+        
+    },
+    {
+        method: 'DELETE',
+        type: 'customer',
+        fn: '',
+        url: '/customer/%id',
+        
+    },
+    {
+        method: 'GET',
+        type: 'diff',
+        fn: '',
+        url: '/service/%service_id/diff/from/%from/to/%to',
+        
+    },
+    {
+        method: 'GET',
+        type: 'director',
+        fn: '',
+        url: '/service/%service_id/version/%version/director/%name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'director',
+        fn: '',
+        url: '/service/%service_id/version/%version/director',
+        
+    },
+    {
+        method: 'POST',
+        type: 'director',
+        fn: '',
+        url: '/service/%service_id/version/%version/director',
+        
+    },
+    {
+        method: 'DELETE',
+        type: 'director',
+        fn: '',
+        url: '/service/%service_id/version/%version/director/%name',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'director',
+        fn: '',
+        url: '/service/%service_id/version/%version/director/%name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'director',
+        fn: '',
+        url: '/service/%service_id/version/%version/director/%director_name/backend/%backend_name',
+        
+    },
+    {
+        method: 'POST',
+        type: 'director',
+        fn: '',
+        url: '/service/%service_id/version/%version/director/%director_name/backend/%backend_name',
+        
+    },
+    {
+        method: 'DELETE',
+        type: 'director',
+        fn: '',
+        url: '/service/%service_id/version/%version/director/%director_name/backend/%backend_name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'docs',
+        fn: '',
+        url: '/docs',
+        
+    },
+    {
+        method: 'GET',
+        type: 'docs',
+        fn: '',
+        url: '/docs/subject/%endpoint',
+        
+    },
+    {
+        method: 'GET',
+        type: 'docs',
+        fn: '',
+        url: '/docs/section/%section',
+        
+    },
+    {
+        method: 'GET',
+        type: 'domain',
+        fn: '',
+        url: '/service/%service_id/version/%version/domain/%name/check',
+        
+    },
+    {
+        method: 'GET',
+        type: 'domain',
+        fn: '',
+        url: '/service/%service_id/version/%version/domain/check_all',
+        
+    },
+    {
+        method: 'GET',
+        type: 'domain',
+        fn: '',
+        url: '/service/%service_id/version/%version/domain/%name',
+        
+    },
+    {
+        method: 'POST',
+        type: 'domain',
+        fn: '',
+        url: '/service/%service_id/version/%version/domain',
+        
+    },
+    {
+        method: 'GET',
+        type: 'domain',
+        fn: '',
+        url: '/service/%service_id/version/%version/domain',
+        
+    },
+    {
+        method: 'DELETE',
+        type: 'domain',
+        fn: '',
+        url: '/service/%service_id/version/%version/domain/%name',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'domain',
+        fn: '',
+        url: '/service/%service_id/version/%version/domain/%old_name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'event',
+        fn: '',
+        url: '/event_log/%id',
+        
+    },
+    {
+        method: 'GET',
+        type: 'header',
+        fn: '',
+        url: '/service/%service_id/version/%version/header/%name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'header',
+        fn: '',
+        url: '/service/%service_id/version/%version/header',
+        
+    },
+    {
+        method: 'POST',
+        type: 'header',
+        fn: '',
+        url: '/service/%service_id/version/%version/header',
+        
+    },
+    {
+        method: 'DELETE',
+        type: 'header',
+        fn: '',
+        url: '/service/%service_id/version/%version/header/%name',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'header',
+        fn: '',
+        url: '/service/%service_id/version/%version/header/%old_name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'healthcheck',
+        fn: 'getHealthcheckByName',
+        url: '/service/%service_id/version/%version/healthcheck/%name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'healthcheck',
+        fn: 'getHealthcheck',
+        url: '/service/%service_id/version/%version/healthcheck',
+        
+    },
+    {
+        method: 'POST',
+        type: 'healthcheck',
+        fn: 'createHealthcheck',
+        url: '/service/%service_id/version/%version/healthcheck',
+        
+    },
+    {
+        method: 'DELETE',
+        type: 'healthcheck',
+        fn: 'deleteHealthcheck',
+        url: '/service/%service_id/version/%version/healthcheck/%name',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'healthcheck',
+        fn: 'updateHealthcheck',
+        url: '/service/%service_id/version/%version/healthcheck/%old_name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'invitation',
+        fn: '',
+        url: '/invitation',
+        
+    },
+    {
+        method: 'POST',
+        type: 'invitation',
+        fn: '',
+        url: '/invitation',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'invitation',
+        fn: '',
+        url: '/invitation/%id/cancel',
+        
+    },
+    {
+        method: 'GET',
+        type: 'pricing',
+        fn: '',
+        url: '/customer/%customer_id/pricing_extra',
+        
+    },
+    {
+        method: 'GET',
+        type: 'pricing',
+        fn: '',
+        url: '/customer/%customer_id/pricing_extra/%name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'request',
+        fn: '',
+        url: '/service/%service_id/version/%version/request_settings/%name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'request',
+        fn: '',
+        url: '/service/%service_id/version/%version/request_settings',
+        
+    },
+    {
+        method: 'POST',
+        type: 'request',
+        fn: '',
+        url: '/service/%service_id/version/%version/request_settings',
+        
+    },
+    {
+        method: 'DELETE',
+        type: 'request',
+        fn: '',
+        url: '/service/%service_id/version/%version/request_settings/%name',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'request',
+        fn: '',
+        url: '/service/%service_id/version/%version/request_settings/%old_name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'response',
+        fn: '',
+        url: '/service/%service_id/version/%version/response_object/%name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'response',
+        fn: '',
+        url: '/service/%service_id/version/%version/response_object',
+        
+    },
+    {
+        method: 'POST',
+        type: 'response',
+        fn: '',
+        url: '/service/%service_id/version/%version/response_object',
+        
+    },
+    {
+        method: 'DELETE',
+        type: 'response',
+        fn: '',
+        url: '/service/%service_id/version/%version/response_object/%name',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'response',
+        fn: '',
+        url: '/service/%service_id/version/%version/response_object/%old_name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'service',
+        fn: 'getServices',
+        url: '/service',
+        
+    },
+    {
+        method: 'GET',
+        type: 'service',
+        fn: '',
+        url: '/service/%id/details',
+        
+    },
+    {
+        method: 'GET',
+        type: 'service',
+        fn: '',
+        url: '/service/search',
+        
+    },
+    {
+        method: 'GET',
+        type: 'service',
+        fn: '',
+        url: '/service/%id',
+        
+    },
+    {
+        method: 'POST',
+        type: 'service',
+        fn: '',
+        url: '/service',
+        
+    },
+    {
+        method: 'DELETE',
+        type: 'service',
+        fn: '',
+        url: '/service/%id',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'service',
+        fn: '',
+        url: '/service/%id',
+        
+    },
+    {
+        method: 'GET',
+        type: 'service',
+        fn: '',
+        url: '/service/%id/domain',
+        
+    },
+    {
+        method: 'GET',
+        type: 'settings',
+        fn: '',
+        url: '/service/%service_id/version/%version/settings',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'settings',
+        fn: '',
+        url: '/service/%service_id/version/%version/settings',
+        
+    },
+    {
+        method: 'GET',
+        type: 'stats',
+        fn: '',
+        url: '/service/%service/stats/summary',
+        
+    },
+    {
+        method: 'GET',
+        type: 'stats',
+        fn: '',
+        url: '/service/%service/stats/%type',
+        
+    },
+    {
+        method: 'POST',
+        type: 'user',
+        fn: '',
+        url: '/current_user/password',
+        
+    },
+    {
+        method: 'GET',
+        type: 'user',
+        fn: '',
+        url: '/current_user',
+        
+    },
+    {
+        method: 'GET',
+        type: 'user',
+        fn: '',
+        url: '/user/%id',
+        
+    },
+    {
+        method: 'POST',
+        type: 'user',
+        fn: '',
+        url: '/user',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'user',
+        fn: '',
+        url: '/user/%id',
+        
+    },
+    {
+        method: 'DELETE',
+        type: 'user',
+        fn: '',
+        url: '/user/%id',
+        
+    },
+    {
+        method: 'POST',
+        type: 'user',
+        fn: '',
+        url: '/user/%login/password/request_reset',
+        
+    },
+    {
+        method: 'GET',
+        type: 'vcl',
+        fn: 'getVcl',
+        url: '/service/%service_id/version/%version/vcl',
+        
+    },
+    {
+        method: 'GET',
+        type: 'vcl',
+        fn: '',
+        url: '/service/%service_id/version/%version/vcl/%name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'vcl',
+        fn: '',
+        url: '/service/%service_id/version/%version/vcl/%name/content',
+        
+    },
+    {
+        method: 'GET',
+        type: 'vcl',
+        fn: '',
+        url: '/service/%service_id/version/%version/vcl/%name/download',
+        
+    },
+    {
+        method: 'GET',
+        type: 'vcl',
+        fn: '',
+        url: '/service/%service_id/version/%version/generated_vcl',
+        
+    },
+    {
+        method: 'GET',
+        type: 'vcl',
+        fn: '',
+        url: '/service/%service_id/version/%version/generated_vcl/content',
+        
+    },
+    {
+        method: 'POST',
+        type: 'vcl',
+        fn: 'updateVcl',
+        url: '/service/%service_id/version/%version/vcl',
+        
+    },
+    {
+        method: 'DELETE',
+        type: 'vcl',
+        fn: 'deleteVcl',
+        url: '/service/%service_id/version/%version/vcl/%name',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'vcl',
+        fn: 'setVclAsMain',
+        url: '/service/%service_id/version/%version/vcl/%name/main',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'vcl',
+        fn: '',
+        url: '/service/%service_id/version/%version/vcl/%old_name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'version',
+        fn: '',
+        url: '/service/%service_id/version/%number',
+        
+    },
+    {
+        method: 'POST',
+        type: 'version',
+        fn: 'createVersion',
+        url: '/service/%service_id/version',
+        
+    },
+    {
+        method: 'GET',
+        type: 'version',
+        fn: 'getVersions',
+        url: '/service/%service_id/version',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'version',
+        fn: '',
+        url: '/service/%service_id/version/%number',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'version',
+        fn: 'activateVersion',
+        url: '/service/%service_id/version/%number/activate',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'version',
+        fn: '',
+        url: '/service/%service_id/version/%number/deactivate',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'version',
+        fn: 'cloneVersion',
+        url: '/service/%service_id/version/%number/clone',
+        
+    },
+    {
+        method: 'GET',
+        type: 'version',
+        fn: 'validateVersion',
+        url: '/service/%service_id/version/%number/validate',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'version',
+        fn: '',
+        url: '/service/%service_id/version/%number/lock',
+        
+    },
+    {
+        method: 'GET',
+        type: 'wordpress',
+        fn: '',
+        url: '/service/%service_id/version/%version/wordpress/%name',
+        
+    },
+    {
+        method: 'GET',
+        type: 'wordpress',
+        fn: '',
+        url: '/service/%service_id/version/%version/wordpress',
+        
+    },
+    {
+        method: 'POST',
+        type: 'wordpress',
+        fn: '',
+        url: '/service/%service_id/version/%version/wordpress',
+        
+    },
+    {
+        method: 'DELETE',
+        type: 'wordpress',
+        fn: '',
+        url: '/service/%service_id/version/%version/wordpress/%name',
+        
+    },
+    {
+        method: 'PUT',
+        type: 'wordpress',
+        fn: '',
+        url: '/service/%service_id/version/%version/wordpress/%old_name',
+        
+    }
+]
