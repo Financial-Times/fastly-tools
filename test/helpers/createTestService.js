@@ -1,7 +1,7 @@
 'use strict';
 const fetch = require('node-fetch');
 
-module.exports = function createFastlyService(){
+module.exports = function createFastlyService (){
 	return fetch(
 		'https://api.fastly.com/service',
 		{

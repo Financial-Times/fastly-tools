@@ -41,18 +41,18 @@ function task (folder, opts) {
 			throw new Error('No service ');
 		}
 
-		const fastly = require('fastly')(fastlyApiKey, encodeURIComponent(serviceId), {verbose: false});
+		const fastly = require('./../lib/fastly/lib')(fastlyApiKey, encodeURIComponent(serviceId), {verbose: false});
 
 		// if service ID is needed use the given serviceId
 		if (options.vars.includes('SERVICEID')) {
 			process.env.SERVICEID = serviceId;
 		}
 
-		let vcls = loadVcl(folder, options.vars);
+		const vcls = loadVcl(folder, options.vars);
 
 		// get the current service and active version
-		let service = yield fastly.getServices().then(services => services.find(s => s.id === serviceId));
-		let activeVersion = service.version;
+		const service = yield fastly.getServices().then(services => services.find(s => s.id === serviceId));
+		const activeVersion = service.version;
 
 		// clone new version from current active version
 		log.verbose(`Cloning active version ${activeVersion} of ${service.name}`);
@@ -64,6 +64,8 @@ function task (folder, opts) {
 		//upload backends via the api
 		if(options.backends){
 			log.verbose(`Backends option specified.  Loading backends from ${options.backends}`);
+
+			log.verbose('Now, delete all existing backends');
 			let backendData = loadBackendData(options.backends);
 			let currentBackends = yield fastly.getBackend(newVersion);
 			log.verbose('Delete existing backends');
@@ -76,15 +78,25 @@ function task (folder, opts) {
 			log.info('Uploaded new backends');
 
 			log.verbose('Now, delete all existing healthchecks');
-			let currentHealthchecks = yield fastly.getHealthcheck(newVersion);
+			const currentHealthchecks = yield fastly.getHealthcheck(newVersion);
 			yield Promise.all(currentHealthchecks.map(h => fastly.deleteHealthcheck(newVersion, h.name)));
 			log.info('Deleted old healthchecks');
 			log.verbose(`About to upload ${backendData.healthchecks.length} healthchecks`);
 			yield Promise.all(backendData.healthchecks.map(h => {
 				log.verbose(`upload healthcheck ${h.name}`);
-				return fastly.createHealthcheck(newVersion, h);
+				return fastly.createHealthcheck(newVersion, h).then(() => log.verbose(`✓ Healthcheck ${h.name} uploaded`));
 			}));
-			log.info('Uploaded health checks');
+			log.info('Uploaded new healthchecks');
+
+			log.verbose('Now, delete all existing conditions');
+			const currentConditions = yield fastly.getConditions(newVersion)
+			yield Promise.all(currentConditions.map(h => fastly.deleteCondition(newVersion, h.name)));
+			log.info('Deleted old conditions');
+			yield Promise.all(backendData.conditions.map(c => {
+				log.verbose(`upload condition ${c.name}`);
+				return fastly.createCondition(newVersion, c).then(() => log.verbose(`✓ Condition ${c.name} uploaded`));
+			}));
+			log.info('Uploaded new conditions');
 		}
 
 		// delete old vcl
@@ -114,7 +126,7 @@ function task (folder, opts) {
 		log.verbose(`Validate version ${newVersion}`);
 		let validationResponse = yield fastly.validateVersion(newVersion)
 		if (validationResponse.status === 'ok') {
-			log.info(`Version  ${newVersion} looks ok`);
+			log.info(`Version ${newVersion} looks ok`);
 			yield fastly.activateVersion(newVersion);
 		} else {
 			let error = new Error('VCL Validation Error');
