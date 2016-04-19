@@ -2,6 +2,12 @@
 
 Command Line Utility for interacting with fastly
 
+## Installation
+
+```
+npm install --save-dev @financial-times/fastly-tools
+```
+
 ## Usage
 
 	fastly [options] [command]
