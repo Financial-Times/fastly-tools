@@ -3,7 +3,7 @@ var sinon = require('sinon');
 var expect = require('chai').expect;
 process.env.FASTLY_APIKEY ='12345';
 var proxyquire = require('proxyquire').noCallThru().noPreserveCache();
-var fastlyMock = require('./mocks/fastly.mock.js');
+var fastlyMock = require('./mocks/fastly.mock');
 
 var path = require('path');
 
@@ -12,7 +12,7 @@ describe('Deploy Task', function(){
 	var deployVcl;
 
 	before(function(){
-		deployVcl = proxyquire('../tasks/deploy', {'fastly' : fastlyMock});
+		deployVcl = proxyquire('../tasks/deploy', {'./../lib/fastly/lib' : fastlyMock});
 	});
 
 	afterEach(() => {
@@ -71,25 +71,6 @@ describe('Deploy Task', function(){
 		});
 	});
 
-	it('Should upload given backends from .vcl file via the api', () => {
-		let fixture = require('./fixtures/backends.json');
-		return deployVcl(
-			path.resolve(__dirname, './fixtures/vcl')+'/',
-			{
-				service:fastlyMock.fakeServiceId,
-				backends:'test/fixtures/backends.vcl',
-				disableLogs:true
-			})
-			.then(function(){
-				let callCount = fastlyMock().createBackend.callCount;
-				expect(callCount).to.equal(fixture.backends.length);
-				for(var i=0; i<callCount; i++){
-					let call = fastlyMock().createBackend.getCall(i);
-					expect(call.args[1]).to.deep.equal(fixture.backends[i]);
-				}
-			});
-	});
-
 	it('Should upload given healthchecks from .json file via the api', () => {
 		let fixture = require('./fixtures/backends.json');
 		return deployVcl(
@@ -109,21 +90,21 @@ describe('Deploy Task', function(){
 			});
 	});
 
-	it('Should upload given healthchecks from .vcl file via the api', () => {
+	it('Should upload given conditions from .json file via the api', () => {
 		let fixture = require('./fixtures/backends.json');
 		return deployVcl(
 			path.resolve(__dirname, './fixtures/vcl')+'/',
 			{
 				service:fastlyMock.fakeServiceId,
-				backends:'test/fixtures/backends.vcl',
+				backends:'test/fixtures/backends.json',
 				disableLogs:true
 			})
 			.then(function(){
-				let callCount = fastlyMock().createHealthcheck.callCount;
-				expect(callCount).to.equal(fixture.healthchecks.length);
+				let callCount = fastlyMock().createCondition.callCount;
+				expect(callCount).to.equal(fixture.conditions.length);
 				for(var i=0; i<callCount; i++){
-					let call = fastlyMock().createHealthcheck.getCall(i);
-					expect(call.args[1]).to.deep.equal(fixture.healthchecks[i]);
+					let call = fastlyMock().createCondition.getCall(i);
+					expect(call.args[1]).to.deep.equal(fixture.conditions[i]);
 				}
 			});
 	});

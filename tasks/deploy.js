@@ -78,7 +78,7 @@ function task (folder, opts) {
 			log.info('Uploaded new backends');
 
 			log.verbose('Now, delete all existing healthchecks');
-			let currentHealthchecks = yield fastly.getHealthcheck(newVersion);
+			const currentHealthchecks = yield fastly.getHealthcheck(newVersion);
 			yield Promise.all(currentHealthchecks.map(h => fastly.deleteHealthcheck(newVersion, h.name)));
 			log.info('Deleted old healthchecks');
 			log.verbose(`About to upload ${backendData.healthchecks.length} healthchecks`);
@@ -89,7 +89,7 @@ function task (folder, opts) {
 			log.info('Uploaded new healthchecks');
 
 			log.verbose('Now, delete all existing conditions');
-			let currentConditions = yield fastly.getConditions(newVersion)
+			const currentConditions = yield fastly.getConditions(newVersion)
 			yield Promise.all(currentConditions.map(h => fastly.deleteCondition(newVersion, h.name)));
 			log.info('Deleted old conditions');
 			yield Promise.all(backendData.conditions.map(c => {

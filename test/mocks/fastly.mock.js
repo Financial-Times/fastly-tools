@@ -21,7 +21,10 @@ var methods = {
 	'deleteBackendByName': null,
 	'getHealthcheck': [{name:'fake-healthcheck'}],
 	'deleteHealthcheck' : null,
-	'createHealthcheck': null
+	'createHealthcheck': null,
+	'getConditions': [{name:'fake-condition'}],
+	'createCondition': null,
+	'deleteCondition': null
 };
 
 var mock = {};

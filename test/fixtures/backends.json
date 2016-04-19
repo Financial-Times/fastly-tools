@@ -1,14 +1,26 @@
 {
   "backends": [
     {
-      "name": "falcon",
+      "name": "falcon_eu",
       "connect_timeout": 3000,
       "port": "80",
-      "hostname": "render.prod.ft.com",
+      "hostname": "eu.prod.ft.com",
       "first_byte_timeout": 1000,
       "max_conn": 200,
       "between_bytes_timeout": 1000,
-      "healthcheck": "falcon_healthcheck"
+      "healthcheck": "falcon_eu_healthcheck",
+      "request_condition": "near_eu"
+    },
+    {
+      "name": "falcon_us",
+      "connect_timeout": 3000,
+      "port": "80",
+      "hostname": "us.prod.ft.com",
+      "first_byte_timeout": 1000,
+      "max_conn": 200,
+      "between_bytes_timeout": 1000,
+      "healthcheck": "falcon_us_healthcheck",
+      "request_condition": "near_us"
     },
     {
       "name": "ig",
@@ -73,11 +85,24 @@
   ],
   "healthchecks": [
     {
-      "name": "falcon_healthcheck",
+      "name": "falcon_eu_healthcheck",
       "method": "HEAD",
       "path": "/itm/site_status.html",
       "http_version": "1.1",
-      "host": "render.prod.ft.com",
+      "host": "eu.prod.ft.com",
+      "threshold": 1,
+      "window": 2,
+      "timeout": 5000,
+      "initial": 1,
+      "expected_response": 200,
+      "interval": 1000
+    },
+    {
+      "name": "falcon_us_healthcheck",
+      "method": "HEAD",
+      "path": "/itm/site_status.html",
+      "http_version": "1.1",
+      "host": "eu.prod.ft.com",
       "threshold": 1,
       "window": 2,
       "timeout": 5000,
@@ -162,6 +187,20 @@
       "initial": 1,
       "expected_response": 200,
       "interval": 1000
+    }
+  ],
+  "conditions": [
+    {
+      "name": "near_eu",
+      "statement": "!(req.http.X-Geoip-Continent ~ \"(NA|SA|OC)\")",
+      "type": "REQUEST",
+      "priority": 10
+    },
+    {
+      "name": "near_us",
+      "statement": "(req.http.X-Geoip-Continent ~ \"(NA|SA|OC)\")",
+      "type": "REQUEST",
+      "priority": 10
     }
   ]
 }
