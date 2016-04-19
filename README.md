@@ -10,11 +10,7 @@ Command Line Utility for interacting with fastly
     
         deploy [options] [folder]
            Deploys VCL in [folder] to the specified fastly service.  Requires FASTLY_KEY env var
-    
-        convert [vclFile]
-           Converts a list of backends written in vcl to json accepted by the fastly API
-    
-    
+
       Options:
     
         -h, --help  output usage information
@@ -35,13 +31,4 @@ Deploys VCL in [folder] to the specified fastly service.  Requires FASTLY_KEY en
 		-e, --env                Load environment variables from local .env file (use when deploying from a local machine
 		-s, --service <service>  REQUIRED.  The ID of the fastly service to deploy to.
 		-V --verbose             Verbose log output
-		b --backends <backends>  Upload the backends specified in <backends> vis the api
-		
-### convert
-Converts a list of backends written in vcl to json accepted by the fastly API
-
-	  Usage: convert [options] [vclFile]
-    
-      Options:
-    
-        -h, --help  output usage information
+		b --backends <backends>  Upload the backends specified in <backends> via the api
