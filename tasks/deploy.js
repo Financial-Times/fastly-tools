@@ -1,9 +1,9 @@
 'use strict';
 const co = require('co');
 require('array.prototype.includes');
+const path = require('path');
 
 const loadVcl = require('../lib/loadVcl');
-const loadBackendData = require('../lib/loadBackendData');
 
 const VCL_VALIDATION_ERROR = Symbol();
 
@@ -64,7 +64,7 @@ function task (folder, opts) {
 		//upload backends via the api
 		if(options.backends){
 			log.verbose(`Backends option specified.  Loading backends from ${options.backends}`);
-			const backendData = loadBackendData(options.backends);
+			const backendData = require(path.join(process.cwd(), options.backends));
 
 			log.verbose('Now, delete all existing healthchecks');
 			const currentHealthchecks = yield fastly.getHealthcheck(newVersion);
@@ -93,7 +93,6 @@ function task (folder, opts) {
 
 			log.verbose('Now, delete all existing backends');
 			const currentBackends = yield fastly.getBackend(newVersion);
-			log.verbose('Delete existing backends');
 			yield Promise.all(currentBackends.map(b => fastly.deleteBackendByName(newVersion, b.name)));
 			log.info('Deleted old backends');
 			yield Promise.all(backendData.backends.map(b => {
@@ -101,6 +100,30 @@ function task (folder, opts) {
 				return fastly.createBackend(newVersion, b).then(() => log.verbose(`✓ Backend ${b.name} uploaded`));
 			}));
 			log.info('Uploaded new backends');
+
+			log.verbose('Now, delete all existing logging logentries');
+			const currentLoggingLogentries = yield fastly.getLoggingLogentries(activeVersion);
+			yield Promise.all(currentLoggingLogentries.map(l => fastly.deleteLoggingLogentriesByName(newVersion, l.name)));
+			log.verbose('Deleted old logging logentries');
+			if (backendData.logging && backendData.logging.logentries) {
+				yield Promise.all(backendData.logging.logentries.map(l => {
+					log.verbose(`upload logging logentries ${l.name}`);
+					return fastly.createLoggingLogentries(newVersion, l).then(() => log.verbose(`✓ Logentries ${l.name} uploaded`));
+				}));
+				log.info('Uploaded new logging logentries');
+			}
+
+			log.verbose('Now, delete all existing logging ftp');
+			const currentLoggingFtp = yield fastly.getLoggingFtp(activeVersion);
+			yield Promise.all(currentLoggingFtp.map(l => fastly.deleteLoggingFtpByName(newVersion, l.name)));
+			log.verbose('Deleted old logging ftp');
+			if (backendData.logging && backendData.logging.ftp) {
+				yield Promise.all(backendData.logging.ftp.map(l => {
+					log.verbose(`upload logging ftp ${l.name}`);
+					return fastly.createLoggingFtp(newVersion, l).then(() => log.verbose(`✓ Ftp ${l.name} uploaded`));
+				}));
+				log.info('Uploaded new logging ftp');
+			}
 		}
 
 		// delete old vcl
@@ -141,9 +164,6 @@ function task (folder, opts) {
 
 		log.success('Your VCL has been deployed.');
 		log.art('superman', 'success');
-
-
-
 
 	}).catch((err => {
 		if(typeof err === 'string'){
