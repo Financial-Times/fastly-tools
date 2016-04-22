@@ -78,7 +78,7 @@ _install_scss_lint:
 	@if $(call IS_GIT_IGNORED); then curl -sL https://raw.githubusercontent.com/Financial-Times/n-makefile/$(VERSION)/config/$@ > $@ && $(DONE); fi
 
 .env:
-	@if $(call IS_GIT_IGNORED); then heroku auth:whoami &>/dev/null || (echo Please make sure the Heroku CLI is installed and authenticated by running `heroku auth:token`.  See more https://toolbelt.heroku.com/. && exit 1); fi
+	@if $(call IS_GIT_IGNORED); then heroku auth:whoami &>/dev/null || (echo Please make sure the Heroku CLI is installed and authenticated by running ‘heroku auth:token’.  See more https://toolbelt.heroku.com/. && exit 1); fi
 	@if $(call IS_GIT_IGNORED) && [ -e package.json ]; then ($(call CONFIG_VARS,development) > .env && $(DONE)) || (echo "Cannot get config vars for this service.  Check you are added to the ft-next-config-vars service on Heroku with operate permissions.  Do that here - https://docs.google.com/spreadsheets/d/1mbJQYJOgXAH2KfgKUM1Vgxq8FUIrahumb39wzsgStu0 (or ask someone to do it for you).  Check that your package.json's name property is correct.  Check that your project has config-vars set up in models/development.js." && exit 1); fi
 
 # VERIFY SUB-TASKS
@@ -109,7 +109,7 @@ GLOB = git ls-files $1 | xargs -I {} find {} ! -type l
 NPM_INSTALL = npm prune --production=false && npm install
 JSON_GET_VALUE = grep $1 | head -n 1 | sed 's/[," ]//g' | cut -d : -f 2
 IS_GIT_IGNORED = grep -q $(if $1, $1, $@) .gitignore
-VERSION = v0.0.80
+VERSION = v0.0.81
 APP_NAME = $(shell cat package.json 2>/dev/null | $(call JSON_GET_VALUE,name))
 DONE = echo ✓ $@ done
 CONFIG_VARS = curl -fsL https://ft-next-config-vars.herokuapp.com/$1/$(if $2,$2,$(call APP_NAME)).env -H "Authorization: `heroku config:get APIKEY --app ft-next-config-vars`"
