@@ -33,6 +33,19 @@ describe('Deploy Task', function(){
 			});
 	});
 
+	it('Should only upload filenames matching *.vcl', function(){
+		return deployVcl(
+			path.resolve(__dirname, './fixtures/vcl')+'/',
+			{ service:fastlyMock.fakeServiceId, disableLogs:true })
+			.then(function(){
+				var spy = fastlyMock().updateVcl;
+				sinon.assert.calledOnce(spy)
+				sinon.assert.calledWith(spy,
+					1, sinon.match.has("name", 'main.vcl')
+				);
+			});
+	});
+
 	it('Should replace placeholders with environment vars', function(){
 		var value = "value";
 		process.env.AUTH_KEY = value;
