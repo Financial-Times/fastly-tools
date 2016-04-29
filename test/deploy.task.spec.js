@@ -2,6 +2,7 @@
 var sinon = require('sinon');
 var expect = require('chai').expect;
 process.env.FASTLY_APIKEY ='12345';
+process.env.LOGENTRIES_TOKEN = '54321';
 var proxyquire = require('proxyquire').noCallThru().noPreserveCache();
 var fastlyMock = require('./mocks/fastly.mock');
 
@@ -105,6 +106,28 @@ describe('Deploy Task', function(){
 				for(var i=0; i<callCount; i++){
 					let call = fastlyMock().createCondition.getCall(i);
 					expect(call.args[1]).to.deep.equal(fixture.conditions[i]);
+				}
+			});
+	});
+
+	it('Should upload given logentries from .json file via the api', () => {
+		let fixture = require('./fixtures/backends.json');
+		return deployVcl(
+			path.resolve(__dirname, './fixtures/vcl')+'/',
+			{
+				service:fastlyMock.fakeServiceId,
+				vars:['LOGENTRIES_TOKEN'],
+				backends:'test/fixtures/backends.json',
+				disableLogs:true
+			})
+			.then(function(){
+				let callCount = fastlyMock().createLoggingLogentries.callCount;
+				expect(callCount).to.equal(fixture.logging.logentries.length);
+				for(var i=0; i<callCount; i++){
+					let call = fastlyMock().createLoggingLogentries.getCall(i);
+					var fixtureConfig = fixture.logging.logentries[i];
+					fixtureConfig.token = '54321';
+					expect(call.args[1]).to.deep.equal(fixtureConfig);
 				}
 			});
 	});

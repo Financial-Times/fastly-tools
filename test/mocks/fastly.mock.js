@@ -24,7 +24,10 @@ var methods = {
 	'createHealthcheck': null,
 	'getConditions': [{name:'fake-condition'}],
 	'createCondition': null,
-	'deleteCondition': null
+	'deleteCondition': null,
+	'getLoggingLogentries': [{name:'fake-logentries'}],
+	'deleteLoggingLogentriesByName': null,
+	'createLoggingLogentries': null
 };
 
 var mock = {};

@@ -202,5 +202,15 @@
       "type": "REQUEST",
       "priority": 10
     }
-  ]
+  ],
+  "logging": {
+    "logentries": [
+      {
+        "name": "Logentries",
+        "port": 20000,
+        "use_tls": 1,
+        "token": "${LOGENTRIES_TOKEN}"
+      }
+    ]
+  }
 }
