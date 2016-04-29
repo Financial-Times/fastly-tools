@@ -116,6 +116,7 @@ describe('Deploy Task', function(){
 			path.resolve(__dirname, './fixtures/vcl')+'/',
 			{
 				service:fastlyMock.fakeServiceId,
+				vars:['LOGENTRIES_TOKEN'],
 				backends:'test/fixtures/backends.json',
 				disableLogs:true
 			})

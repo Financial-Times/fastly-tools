@@ -65,7 +65,7 @@ function task (folder, opts) {
 		//upload backends via the api
 		if(options.backends){
 			log.verbose(`Backends option specified.  Loading backends from ${options.backends}`);
-			const backendData = loadBackends(options.backends);
+			const backendData = loadBackends(options.backends, options.vars);
 
 			log.verbose('Now, delete all existing healthchecks');
 			const currentHealthchecks = yield fastly.getHealthcheck(newVersion);
