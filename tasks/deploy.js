@@ -1,7 +1,6 @@
 'use strict';
 const co = require('co');
 require('array.prototype.includes');
-const path = require('path');
 
 const loadVcl = require('../lib/loadVcl');
 const loadBackends = require('../lib/loadBackends');
