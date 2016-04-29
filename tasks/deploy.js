@@ -4,6 +4,7 @@ require('array.prototype.includes');
 const path = require('path');
 
 const loadVcl = require('../lib/loadVcl');
+const loadBackends = require('../lib/loadBackends');
 
 const VCL_VALIDATION_ERROR = Symbol();
 
@@ -64,7 +65,7 @@ function task (folder, opts) {
 		//upload backends via the api
 		if(options.backends){
 			log.verbose(`Backends option specified.  Loading backends from ${options.backends}`);
-			const backendData = require(path.join(process.cwd(), options.backends));
+			const backendData = loadBackends(options.backends);
 
 			log.verbose('Now, delete all existing healthchecks');
 			const currentHealthchecks = yield fastly.getHealthcheck(newVersion);
