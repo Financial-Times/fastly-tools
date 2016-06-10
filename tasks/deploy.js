@@ -4,8 +4,7 @@ require('array.prototype.includes');
 const path = require('path');
 
 const loadVcl = require('../lib/loadVcl');
-
-const VCL_VALIDATION_ERROR = Symbol();
+const symbols = require('../lib/symbols');
 
 function task (folder, opts) {
 	let options = Object.assign({
@@ -160,7 +159,7 @@ function task (folder, opts) {
 			yield fastly.activateVersion(newVersion);
 		} else {
 			let error = new Error('VCL Validation Error');
-			error.type = VCL_VALIDATION_ERROR;
+			error.type = symbols.VCL_VALIDATION_ERROR;
 			error.validation = validationResponse.msg;
 			throw error;
 		}
