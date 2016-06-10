@@ -4,8 +4,7 @@ require('array.prototype.includes');
 const path = require('path');
 
 const loadVcl = require('../lib/loadVcl');
-
-const VCL_VALIDATION_ERROR = Symbol();
+const symbols = require('../lib/symbols');
 
 function task (folder, opts) {
 	let options = Object.assign({
@@ -23,9 +22,12 @@ function task (folder, opts) {
 	}
 
 	const log = require('../lib/logger')({verbose:options.verbose, disabled:options.disableLogs});
-	const exit = require('../lib/exit')(log);
 
 	return co(function*() {
+		if(!folder) {
+			throw new Error('Please provide a folder where the .vcl is located');
+		}
+
 		if (!options.service) {
 			throw new Error('the service parameter is required set to the service id of a environment variable name');
 		}
@@ -135,7 +137,7 @@ function task (folder, opts) {
 		log.info('Deleted old vcl');
 
 		//upload new vcl
-		log.info(`Uploading new VCL`);
+		log.info('Uploading new VCL');
 		yield Promise.all(vcls.map(vcl => {
 			log.verbose(`Uploading new VCL ${vcl.name} with version ${newVersion}`);
 			return fastly.updateVcl(newVersion, {
@@ -157,7 +159,7 @@ function task (folder, opts) {
 			yield fastly.activateVersion(newVersion);
 		} else {
 			let error = new Error('VCL Validation Error');
-			error.type = VCL_VALIDATION_ERROR;
+			error.type = symbols.VCL_VALIDATION_ERROR;
 			error.validation = validationResponse.msg;
 			throw error;
 		}
@@ -165,17 +167,7 @@ function task (folder, opts) {
 		log.success('Your VCL has been deployed.');
 		log.art('superman', 'success');
 
-	}).catch((err => {
-		if(typeof err === 'string'){
-			log.error(err);
-		}else if(err.type && err.type === VCL_VALIDATION_ERROR){
-			log.error('VCL Validation Error');
-			log.error(err.validation);
-		}else{
-			log.error(err.stack);
-		}
-		exit('Bailing...', log);
-	}));
+	});
 }
 
 module.exports = task;

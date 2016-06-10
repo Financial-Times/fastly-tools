@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 'use strict';
 const program = require('commander');
-const log = require('../lib/logger');
-const exit = require('../lib/exit')(log);
 
 function list(val) {
 	return val.split(',');
@@ -19,11 +17,23 @@ program
 	.option('-b --backends <backends>', 'Upload the backends specified in <backends> via the api')
 	.action(function(folder, options) {
 		const deploy = require('../tasks/deploy');
-		if (folder) {
-			deploy(folder, options).catch(exit);
-		} else {
-			exit('Please provide a folder where the .vcl is located');
-		}
+		const log = require('../lib/logger')({verbose:options.verbose, disabled:options.disableLogs});
+		const exit = require('../lib/exit')(log, true);
+
+		const symbols = require('../lib/symbols');
+
+		deploy(folder, options).catch(err => {
+			if(typeof err === 'string'){
+				log.error(err);
+			}else if(err.type && err.type === symbols.VCL_VALIDATION_ERROR){
+				log.error('VCL Validation Error');
+				log.error(err.validation);
+			}else{
+				log.error(err.stack);
+			}
+			exit('Bailing...', log);
+		});
+
 	});
 
 program.parse(process.argv);
