@@ -15,7 +15,7 @@ npm install --save-dev @financial-times/fastly-tools
       Commands:
     
         deploy [options] [folder]
-           Deploys VCL in [folder] to the specified fastly service.  Requires FASTLY_KEY env var
+           Deploys VCL in [folder] to the specified fastly service.  Requires FASTLY_APIKEY env var
 
       Options:
     
@@ -25,7 +25,7 @@ npm install --save-dev @financial-times/fastly-tools
 ## Commands
 
 ### deploy
-Deploys VCL in [folder] to the specified fastly service.  Requires FASTLY_KEY env var
+Deploys VCL in [folder] to the specified fastly service.  Requires FASTLY_APIKEY env var
 
 	Usage: deploy [options] [folder]
 	
