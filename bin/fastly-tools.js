@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 'use strict';
 const program = require('commander');
-const log = require('../lib/logger');
-const exit = require('../lib/exit')(log);
 
 function list(val) {
 	return val.split(',');
@@ -19,6 +17,9 @@ program
 	.option('-b --backends <backends>', 'Upload the backends specified in <backends> via the api')
 	.action(function(folder, options) {
 		const deploy = require('../tasks/deploy');
+		const log = require('../lib/logger')({verbose:options.verbose, disabled:options.disableLogs});
+		const exit = require('../lib/exit')(log);
+
 		if (folder) {
 			deploy(folder, options).catch(exit);
 		} else {
