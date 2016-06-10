@@ -137,7 +137,7 @@ function task (folder, opts) {
 		log.info('Deleted old vcl');
 
 		//upload new vcl
-		log.info(`Uploading new VCL`);
+		log.info('Uploading new VCL');
 		yield Promise.all(vcls.map(vcl => {
 			log.verbose(`Uploading new VCL ${vcl.name} with version ${newVersion}`);
 			return fastly.updateVcl(newVersion, {
