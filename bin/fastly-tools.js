@@ -18,13 +18,20 @@ program
 	.action(function(folder, options) {
 		const deploy = require('../tasks/deploy');
 		const log = require('../lib/logger')({verbose:options.verbose, disabled:options.disableLogs});
-		const exit = require('../lib/exit')(log);
+		const exit = require('../lib/exit')(log, true);
 
-		if (folder) {
-			deploy(folder, options).catch(exit);
-		} else {
-			exit('Please provide a folder where the .vcl is located');
-		}
+		deploy(folder, options).catch(err => {
+			if(typeof err === 'string'){
+				log.error(err);
+			}else if(err.type && err.type === VCL_VALIDATION_ERROR){
+				log.error('VCL Validation Error');
+				log.error(err.validation);
+			}else{
+				log.error(err.stack);
+			}
+			exit('Bailing...', log);
+		});
+
 	});
 
 program.parse(process.argv);

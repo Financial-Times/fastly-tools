@@ -23,9 +23,12 @@ function task (folder, opts) {
 	}
 
 	const log = require('../lib/logger')({verbose:options.verbose, disabled:options.disableLogs});
-	const exit = require('../lib/exit')(log);
 
 	return co(function*() {
+		if(!folder) {
+			throw new Error('Please provide a folder where the .vcl is located');
+		}
+
 		if (!options.service) {
 			throw new Error('the service parameter is required set to the service id of a environment variable name');
 		}
@@ -165,17 +168,7 @@ function task (folder, opts) {
 		log.success('Your VCL has been deployed.');
 		log.art('superman', 'success');
 
-	}).catch((err => {
-		if(typeof err === 'string'){
-			log.error(err);
-		}else if(err.type && err.type === VCL_VALIDATION_ERROR){
-			log.error('VCL Validation Error');
-			log.error(err.validation);
-		}else{
-			log.error(err.stack);
-		}
-		exit('Bailing...', log);
-	}));
+	});
 }
 
 module.exports = task;
