@@ -31,6 +31,9 @@ var methods = {
 	'getLoggingFtp': [{name:'fake-ftp'}],
 	'deleteLoggingFtpByName': null,
 	'createLoggingFtp': null,
+	'getLoggingSyslog': [{name:'fake-syslog'}],
+	'deleteLoggingSyslogByName': null,
+	'createLoggingSyslog': null,
 };
 
 var mock = {};

@@ -126,6 +126,18 @@ function task (folder, opts) {
 				}));
 				log.info('Uploaded new logging ftp');
 			}
+
+			log.verbose('Now, delete all existing logging syslog');
+			const currentLoggingSyslog = yield fastly.getLoggingSyslog(activeVersion);
+			yield Promise.all(currentLoggingSyslog.map(l => fastly.deleteLoggingSyslogByName(newVersion, l.name)));
+			log.verbose('Deleted old logging syslog');
+			if (backendData.logging && backendData.logging.syslog) {
+				yield Promise.all(backendData.logging.syslog.map(l => {
+					log.verbose(`upload logging syslog ${l.name}`);
+					return fastly.createLoggingSyslog(newVersion, l).then(() => log.verbose(`✓ Syslog ${l.name} uploaded`));
+				}));
+				log.info('Uploaded new logging syslog');
+			}
 		}
 
 		// delete old vcl
