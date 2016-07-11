@@ -119,19 +119,21 @@ function task (folder, opts) {
 			};
 
 			for(const logger in loggers) {
-				log.verbose(`Now, delete all existing logging ${logger}`);
-				const currentLoggers = yield loggers[logger].get(activeVersion);
-				yield Promise.all(currentLoggers.map(l => loggers[logger].delete(newVersion, l.name)));
-				log.verbose(`Deleted old logging ${logger}`);
-				if (backendData.logging && backendData.logging[logger]) {
-					yield Promise.all(backendData.logging[logger].map(l => {
-						log.verbose(`upload logging ${logger} ${l.name}`);
-						return loggers[logger].create(newVersion, l)
-							.then(() =>
-								log.verbose(`✓ Logger ${logger}/${l.name} uploaded`)
-							);
-					}));
-					log.info(`Uploaded new logging ${logger}`);
+				if(loggers.hasOwnProperty(logger)) {
+					log.verbose(`Now, delete all existing logging ${logger}`);
+					const currentLoggers = yield loggers[logger].get(activeVersion);
+					yield Promise.all(currentLoggers.map(l => loggers[logger].delete(newVersion, l.name)));
+					log.verbose(`Deleted old logging ${logger}`);
+					if (backendData.logging && backendData.logging[logger]) {
+						yield Promise.all(backendData.logging[logger].map(l => {
+							log.verbose(`upload logging ${logger} ${l.name}`);
+							return loggers[logger].create(newVersion, l)
+								.then(() =>
+									log.verbose(`✓ Logger ${logger}/${l.name} uploaded`)
+								);
+						}));
+						log.info(`Uploaded new logging ${logger}`);
+					}
 				}
 			}
 		}
