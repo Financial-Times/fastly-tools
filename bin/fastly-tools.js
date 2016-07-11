@@ -14,6 +14,7 @@ program
 	.option('-e, --env', 'Load environment variables from local .env file (use when deploying from a local machine')
 	.option('-s, --service <service>', 'REQUIRED.  The ID of the fastly service to deploy to.')
 	.option('-V --verbose', 'Verbose log output')
+	.option('--no-vcl', 'There is no vcl files to upload, just api stuff')
 	.option('-b --backends <backends>', 'Upload the backends specified in <backends> via the api')
 	.action(function(folder, options) {
 		const deploy = require('../tasks/deploy');

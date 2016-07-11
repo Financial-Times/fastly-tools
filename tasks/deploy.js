@@ -14,7 +14,8 @@ function task (folder, opts) {
 		vars: [],
 		verbose: false,
 		disableLogs: false,
-		backends: null
+		backends: null,
+		vcl: true
 	}, opts);
 
 	if (options.env) {
@@ -24,7 +25,7 @@ function task (folder, opts) {
 	const log = require('../lib/logger')({verbose:options.verbose, disabled:options.disableLogs});
 
 	return co(function*() {
-		if(!folder) {
+		if(options.vcl && !folder) {
 			throw new Error('Please provide a folder where the .vcl is located');
 		}
 
@@ -49,8 +50,6 @@ function task (folder, opts) {
 		if (options.vars.includes('SERVICEID')) {
 			process.env.SERVICEID = serviceId;
 		}
-
-		const vcls = loadVcl(folder, options.vars);
 
 		// get the current service and active version
 		const service = yield fastly.getServices().then(services => services.find(s => s.id === serviceId));
@@ -128,45 +127,48 @@ function task (folder, opts) {
 			}
 		}
 
-		// delete old vcl
-		let oldVcl = yield fastly.getVcl(newVersion);
-		yield Promise.all(oldVcl.map(vcl => {
-			log.verbose(`Deleting "${vcl.name}" for version ${newVersion}`);
-			return fastly.deleteVcl(newVersion, vcl.name);
-		}));
-		log.info('Deleted old vcl');
+		if(options.vcl){
+			const vcls = loadVcl(folder, options.vars);
+			// delete old vcl
+			let oldVcl = yield fastly.getVcl(newVersion);
+			yield Promise.all(oldVcl.map(vcl => {
+				log.verbose(`Deleting "${vcl.name}" for version ${newVersion}`);
+				return fastly.deleteVcl(newVersion, vcl.name);
+			}));
+			log.info('Deleted old vcl');
 
-		//upload new vcl
-		log.info('Uploading new VCL');
-		yield Promise.all(vcls.map(vcl => {
-			log.verbose(`Uploading new VCL ${vcl.name} with version ${newVersion}`);
-			return fastly.updateVcl(newVersion, {
-				name: vcl.name,
-				content: vcl.content
-			});
-		}));
+			//upload new vcl
+			log.info('Uploading new VCL');
+			yield Promise.all(vcls.map(vcl => {
+				log.verbose(`Uploading new VCL ${vcl.name} with version ${newVersion}`);
+				return fastly.updateVcl(newVersion, {
+					name: vcl.name,
+					content: vcl.content
+				});
+			}));
 
-		// set the main vcl file
-		log.verbose(`Try to set "${options.main}" as the main entry point`);
-		yield fastly.setVclAsMain(newVersion, options.main);
-		log.info(`"${options.main}" set as the main entry point`);
+			// set the main vcl file
+			log.verbose(`Try to set "${options.main}" as the main entry point`);
+			yield fastly.setVclAsMain(newVersion, options.main);
+			log.info(`"${options.main}" set as the main entry point`);
 
-		// validate
-		log.verbose(`Validate version ${newVersion}`);
-		let validationResponse = yield fastly.validateVersion(newVersion)
-		if (validationResponse.status === 'ok') {
-			log.info(`Version ${newVersion} looks ok`);
-			yield fastly.activateVersion(newVersion);
-		} else {
-			let error = new Error('VCL Validation Error');
-			error.type = symbols.VCL_VALIDATION_ERROR;
-			error.validation = validationResponse.msg;
-			throw error;
+			// validate
+			log.verbose(`Validate version ${newVersion}`);
+			let validationResponse = yield fastly.validateVersion(newVersion)
+			if (validationResponse.status === 'ok') {
+				log.info(`Version ${newVersion} looks ok`);
+				yield fastly.activateVersion(newVersion);
+			} else {
+				let error = new Error('VCL Validation Error');
+				error.type = symbols.VCL_VALIDATION_ERROR;
+				error.validation = validationResponse.msg;
+				throw error;
+			}
+
+			log.success('Your VCL has been deployed.');
 		}
 
-		log.success('Your VCL has been deployed.');
 		log.art('superman', 'success');
-
 	});
 }
 
