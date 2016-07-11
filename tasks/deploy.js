@@ -103,40 +103,36 @@ function task (folder, opts) {
 			}));
 			log.info('Uploaded new backends');
 
-			log.verbose('Now, delete all existing logging logentries');
-			const currentLoggingLogentries = yield fastly.getLoggingLogentries(activeVersion);
-			yield Promise.all(currentLoggingLogentries.map(l => fastly.deleteLoggingLogentriesByName(newVersion, l.name)));
-			log.verbose('Deleted old logging logentries');
-			if (backendData.logging && backendData.logging.logentries) {
-				yield Promise.all(backendData.logging.logentries.map(l => {
-					log.verbose(`upload logging logentries ${l.name}`);
-					return fastly.createLoggingLogentries(newVersion, l).then(() => log.verbose(`✓ Logentries ${l.name} uploaded`));
-				}));
-				log.info('Uploaded new logging logentries');
-			}
+			const loggers = {
+				'logentries': { 'get':    fastly.getLoggingLogentries,
+						'delete': fastly.deleteLoggingLogentriesByName,
+						'create': fastly.createLoggingLogentries,
+				},
+				'ftp':        { 'get':    fastly.getLoggingFtp,
+						'delete': fastly.deleteLoggingFtpByName,
+						'create': fastly.createLoggingFtp,
+				},
+				'syslog':     { 'get':    fastly.getLoggingSyslog,
+						'delete': fastly.deleteLoggingSyslogByName,
+						'create': fastly.createLoggingSyslog,
+				},
+			};
 
-			log.verbose('Now, delete all existing logging ftp');
-			const currentLoggingFtp = yield fastly.getLoggingFtp(activeVersion);
-			yield Promise.all(currentLoggingFtp.map(l => fastly.deleteLoggingFtpByName(newVersion, l.name)));
-			log.verbose('Deleted old logging ftp');
-			if (backendData.logging && backendData.logging.ftp) {
-				yield Promise.all(backendData.logging.ftp.map(l => {
-					log.verbose(`upload logging ftp ${l.name}`);
-					return fastly.createLoggingFtp(newVersion, l).then(() => log.verbose(`✓ Ftp ${l.name} uploaded`));
-				}));
-				log.info('Uploaded new logging ftp');
-			}
-
-			log.verbose('Now, delete all existing logging syslog');
-			const currentLoggingSyslog = yield fastly.getLoggingSyslog(activeVersion);
-			yield Promise.all(currentLoggingSyslog.map(l => fastly.deleteLoggingSyslogByName(newVersion, l.name)));
-			log.verbose('Deleted old logging syslog');
-			if (backendData.logging && backendData.logging.syslog) {
-				yield Promise.all(backendData.logging.syslog.map(l => {
-					log.verbose(`upload logging syslog ${l.name}`);
-					return fastly.createLoggingSyslog(newVersion, l).then(() => log.verbose(`✓ Syslog ${l.name} uploaded`));
-				}));
-				log.info('Uploaded new logging syslog');
+			for(const logger in loggers) {
+				log.verbose(`Now, delete all existing logging ${logger}`);
+				const currentLoggers = yield loggers[logger].get(activeVersion);
+				yield Promise.all(currentLoggers.map(l => loggers[logger].delete(newVersion, l.name)));
+				log.verbose(`Deleted old logging ${logger}`);
+				if (backendData.logging && backendData.logging[logger]) {
+					yield Promise.all(backendData.logging[logger].map(l => {
+						log.verbose(`upload logging ${logger} ${l.name}`);
+						return loggers[logger].create(newVersion, l)
+							.then(() =>
+								log.verbose(`✓ Logger ${logger}/${l.name} uploaded`)
+							);
+					}));
+					log.info(`Uploaded new logging ${logger}`);
+				}
 			}
 		}
 
