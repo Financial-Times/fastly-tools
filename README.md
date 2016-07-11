@@ -37,4 +37,5 @@ Deploys VCL in [folder] to the specified fastly service.  Requires FASTLY_APIKEY
 		-e, --env                Load environment variables from local .env file (use when deploying from a local machine
 		-s, --service <service>  REQUIRED.  The ID of the fastly service to deploy to.
 		-V --verbose             Verbose log output
-		b --backends <backends>  Upload the backends specified in <backends> via the api
+		-b --backends <backends>  Upload the backends specified in <backends> via the api
+		--no-vcl                  Just upload backends as specified, no .vcl files
