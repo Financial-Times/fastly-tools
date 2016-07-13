@@ -1,6 +1,6 @@
 {
   "name": "@financial-times/fastly-tools",
-  "version": "1.4.1",
+  "version": "0.0.0",
   "description": "Command Line Utility for interacting with fastly",
   "main": "main.js",
   "bin": {
@@ -28,6 +28,7 @@
     "eslint": "^2.8.0",
     "lintspaces-cli": "^0.1.1",
     "mocha": "^2.4.5",
+    "npm-prepublish": "^1.2.1",
     "proxyquire": "^1.7.4",
     "sinon": "^1.17.3",
     "tap": "^5.7.1"
