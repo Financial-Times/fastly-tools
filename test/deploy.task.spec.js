@@ -108,4 +108,18 @@ describe('Deploy Task', function(){
 				}
 			});
 	});
+
+	it('Should not attempt to upload vcl if none is given', () => {
+		return deployVcl(
+			null,
+			{
+				service:fastlyMock.fakeServiceId,
+				backends:'test/fixtures/backends.json',
+				disableLogs:true,
+				vcl: false
+			})
+			.then(function(){
+				sinon.assert.notCalled(fastlyMock().updateVcl);
+			});
+	})
 });
