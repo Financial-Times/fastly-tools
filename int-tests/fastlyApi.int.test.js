@@ -42,7 +42,7 @@ describe('Integration Tests', () => {
 					console.log('--- test service created');
 					//console.log(svc);
 					testServiceId = svc.id;
-					fastly = require('fastly')(process.env.FASTLY_APIKEY, svc.id);
+					fastly = require('../lib/fastly/lib')(process.env.FASTLY_APIKEY, svc.id);
 				})
 		});
 

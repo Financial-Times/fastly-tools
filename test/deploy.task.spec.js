@@ -108,4 +108,23 @@ describe('Deploy Task', function(){
 				}
 			});
 	});
+
+	it('Should upload given request settings from .json file via the api', () => {
+		let fixture = require('./fixtures/backends.json');
+		return deployVcl(
+			path.resolve(__dirname, './fixtures/vcl')+'/',
+			{
+				service:fastlyMock.fakeServiceId,
+				backends:'test/fixtures/backends.json',
+				disableLogs:true
+			})
+			.then(function(){
+				let callCount = fastlyMock().createRequestSetting.callCount;
+				expect(callCount).to.equal(fixture.requestSettings.length);
+				for(var i=0; i<callCount; i++){
+					let call = fastlyMock().createRequestSetting.getCall(i);
+					expect(call.args[1]).to.deep.equal(fixture.requestSettings[i]);
+				}
+			});
+	});
 });

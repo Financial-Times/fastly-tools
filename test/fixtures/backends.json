@@ -202,5 +202,17 @@
       "type": "REQUEST",
       "priority": 10
     }
+  ],
+  "requestSettings": [
+    {
+      "name": "set_default_host_for_eu",
+      "request_condition": "near_eu",
+      "default_host": "eu.prod.ft.com"
+    },
+    {
+      "name": "set_default_host_for_us",
+      "request_condition": "near_us",
+      "default_host": "us.prod.ft.com"
+    }
   ]
 }

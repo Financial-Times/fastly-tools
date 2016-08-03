@@ -93,6 +93,16 @@ function task (folder, opts) {
 				log.info('Uploaded new conditions');
 			}
 
+			log.verbose('Now, delete all existing request settings');
+			const currentRequestSettings = yield fastly.getRequestSettings(newVersion);
+			yield Promise.all(currentRequestSettings.map(s => fastly.deleteRequestSettingByName(newVersion, s.name)));
+			log.info('Deleted old request settings');
+			yield Promise.all(backendData.requestSettings.map(s => {
+				log.verbose(`upload request setting ${s.name}`);
+				return fastly.createRequestSetting(newVersion, s).then(() => log.verbose(`✓ Request Setting ${s.name} uploaded`));
+			}));
+			log.info('Uploaded new request settings');
+
 			log.verbose('Now, delete all existing backends');
 			const currentBackends = yield fastly.getBackend(newVersion);
 			yield Promise.all(currentBackends.map(b => fastly.deleteBackendByName(newVersion, b.name)));
