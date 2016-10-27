@@ -11,7 +11,7 @@
     "test": "make test"
   },
   "engines": {
-    "node": "5.10.1"
+    "node": ">=5.10.1"
   },
   "repository": {
     "type": "git",
