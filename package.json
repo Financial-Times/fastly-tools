@@ -26,7 +26,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "eslint": "^2.8.0",
-    "lintspaces-cli": "^0.1.1",
+    "lintspaces-cli": "^0.4.0",
     "mocha": "^2.4.5",
     "npm-prepublish": "^1.2.1",
     "proxyquire": "^1.7.4",
