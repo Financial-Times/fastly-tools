@@ -1,6 +1,6 @@
 {
   "name": "@financial-times/fastly-tools",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Command Line Utility for interacting with fastly",
   "main": "main.js",
   "bin": {
