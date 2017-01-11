@@ -17,7 +17,9 @@ describe('Deploy Task', function(){
 
 	afterEach(() => {
 		for(let method of Object.keys(fastlyMock())){
-			fastlyMock()[method].reset();
+			if (typeof fastlyMock()[method] === 'function') {
+				fastlyMock()[method].reset();
+			}
 		}
 	});
 
@@ -26,6 +28,7 @@ describe('Deploy Task', function(){
 			path.resolve(__dirname, './fixtures/vcl')+'/',
 			{
 				service:fastlyMock.fakeServiceId,
+				apiKeys: ['dummy-key'],
 				disableLogs:true
 			})
 			.then(function(){
@@ -38,7 +41,12 @@ describe('Deploy Task', function(){
 		process.env.AUTH_KEY = value;
 		return deployVcl(
 			path.resolve(__dirname, './fixtures/vcl')+'/',
-			{service:fastlyMock.fakeServiceId,vars:['AUTH_KEY'], disableLogs:true})
+			{
+				service:fastlyMock.fakeServiceId,
+				apiKeys: ['dummy-key'],
+				vars:['AUTH_KEY'],
+				disableLogs:true
+			})
 			.then(function(){
 				var vcl = fastlyMock().updateVcl.lastCall.args[1].content;
 				expect(vcl).to.contain(value);
@@ -52,6 +60,7 @@ describe('Deploy Task', function(){
 			path.resolve(__dirname, './fixtures/vcl')+'/',
 			{
 				service:fastlyMock.fakeServiceId,
+				apiKeys: ['dummy-key'],
 				backends:'test/fixtures/backends.json',
 				disableLogs:true
 			})
@@ -77,6 +86,7 @@ describe('Deploy Task', function(){
 			path.resolve(__dirname, './fixtures/vcl')+'/',
 			{
 				service:fastlyMock.fakeServiceId,
+				apiKeys: ['dummy-key'],
 				backends:'test/fixtures/backends.json',
 				disableLogs:true
 			})
@@ -96,6 +106,7 @@ describe('Deploy Task', function(){
 			path.resolve(__dirname, './fixtures/vcl')+'/',
 			{
 				service:fastlyMock.fakeServiceId,
+				apiKeys: ['dummy-key'],
 				backends:'test/fixtures/backends.json',
 				disableLogs:true
 			})

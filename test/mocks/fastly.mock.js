@@ -44,7 +44,7 @@ module.exports = function (){
 		return mock;
 	}
 
-	mock = {};
+	mock = {apikeys: ['dummy-second-key'], apikey: 'dummy-key'};
 	var func = mockPromiseMethod.bind(null, mock);
 	Object.keys(methods).forEach(function (key){
 		func(key, methods[key]);
