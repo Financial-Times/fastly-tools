@@ -14,7 +14,8 @@ function task (folder, opts) {
 		vars: [],
 		verbose: false,
 		disableLogs: false,
-		backends: null
+		backends: null,
+		apikeys: []
 	}, opts);
 
 	if (options.env) {
@@ -32,18 +33,22 @@ function task (folder, opts) {
 			throw new Error('the service parameter is required set to the service id of a environment variable name');
 		}
 
-		if (!process.env.FASTLY_APIKEY) {
-			throw new Error('FASTLY_APIKEY not found');
+		if (process.env.FASTLY_APIKEY) {
+			options.apiKeys.unshift(process.env.FASTLY_APIKEY);
 		}
 
-		const fastlyApiKey = process.env.FASTLY_APIKEY;
+		if (!options.apiKeys.length) {
+			throw new Error('fastly api key not found. Either set a FASTLY_APIKEY environment variable, or pass in using the --api-keys option');
+		}
+
+		const fastlyApiKeys = options.apiKeys;
 		const serviceId = process.env[opts.service] || opts.service;
 
 		if (!serviceId) {
 			throw new Error('No service ');
 		}
 
-		const fastly = require('./../lib/fastly/lib')(fastlyApiKey, encodeURIComponent(serviceId), {verbose: false});
+		const fastly = require('./../lib/fastly/lib')(fastlyApiKeys, encodeURIComponent(serviceId), {verbose: false});
 
 		// if service ID is needed use the given serviceId
 		if (options.vars.includes('SERVICEID')) {

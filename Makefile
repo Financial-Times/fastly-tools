@@ -3,9 +3,9 @@ include n.Makefile
 .PHONY: test
 
 test-unit:
-	mocha --recursive --require loadvars.js
+	mocha --recursive
 
 test-int:
-	mocha int-tests/ --require loadvars.js
+	mocha int-tests/
 
 test: verify test-unit
