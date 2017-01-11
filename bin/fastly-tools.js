@@ -22,7 +22,6 @@ program
 		const exit = require('../lib/exit')(log, true);
 
 		const symbols = require('../lib/symbols');
-		console.log(options.apiKeys);
 		deploy(folder, options).catch(err => {
 			if(typeof err === 'string'){
 				log.error(err);

@@ -38,7 +38,7 @@ function task (folder, opts) {
 		}
 
 		if (!options.apiKeys.length) {
-			throw new Error('fastly api key not found. Wither set a FASTLY_APIKEY environment variable, or pass in using the --api-keys option');
+			throw new Error('fastly api key not found. Either set a FASTLY_APIKEY environment variable, or pass in using the --api-keys option');
 		}
 
 		const fastlyApiKeys = options.apiKeys;
