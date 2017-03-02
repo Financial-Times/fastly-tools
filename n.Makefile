@@ -142,3 +142,11 @@ update-tools:
 	@read -p "Updated tools from $(VERSION) to $(LATEST).  Do you want to commit and push? [y/N] " Y;\
 	if [ $$Y == "y" ]; then git add n.Makefile && git commit -m "Updated tools to $(LATEST)" && git push origin HEAD; fi
 	@$(DONE)
+
+# Wrapper for make deploy which prevents it running when build is a nightly
+deploy-by-day:
+ifeq ($(FT_NIGHTLY_BUILD),)
+	$(MAKE) deploy
+else
+	echo "Nightly build - exiting before deploy"
+endif
