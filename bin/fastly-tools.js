@@ -16,6 +16,7 @@ program
 	.option('-V --verbose', 'Verbose log output')
 	.option('-b --backends <backends>', 'Upload the backends specified in <backends> via the api')
 	.option('-k --api-keys <keys>', 'list of alternate api keys to try should the key stored in process.env.FASTLY_API_KEY hit its rate limit', list)
+	.option('--skip-conditions <conditions>', 'list of conditions to skip deleting', list)
 	.action(function(folder, options) {
 		const deploy = require('../tasks/deploy');
 		const log = require('../lib/logger')({verbose:options.verbose, disabled:options.disableLogs});
