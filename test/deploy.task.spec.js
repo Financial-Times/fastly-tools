@@ -29,6 +29,7 @@ describe('Deploy Task', function(){
 			{
 				service:fastlyMock.fakeServiceId,
 				apiKeys: ['dummy-key'],
+				skipConditions: [],
 				disableLogs:true
 			})
 			.then(function(){
@@ -44,6 +45,7 @@ describe('Deploy Task', function(){
 			{
 				service:fastlyMock.fakeServiceId,
 				apiKeys: ['dummy-key'],
+				skipConditions: [],
 				vars:['AUTH_KEY'],
 				disableLogs:true
 			})
@@ -61,6 +63,7 @@ describe('Deploy Task', function(){
 			{
 				service:fastlyMock.fakeServiceId,
 				apiKeys: ['dummy-key'],
+				skipConditions: [],
 				backends:'test/fixtures/backends.json',
 				disableLogs:true
 			})
@@ -87,6 +90,7 @@ describe('Deploy Task', function(){
 			{
 				service:fastlyMock.fakeServiceId,
 				apiKeys: ['dummy-key'],
+				skipConditions: [],
 				backends:'test/fixtures/backends.json',
 				disableLogs:true
 			})
@@ -107,6 +111,7 @@ describe('Deploy Task', function(){
 			{
 				service:fastlyMock.fakeServiceId,
 				apiKeys: ['dummy-key'],
+				skipConditions: [],
 				backends:'test/fixtures/backends.json',
 				disableLogs:true
 			})

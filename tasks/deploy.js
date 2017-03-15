@@ -88,7 +88,11 @@ function task (folder, opts) {
 
 			log.verbose('Now, delete all existing conditions');
 			const currentConditions = yield fastly.getConditions(newVersion)
-			yield Promise.all(currentConditions.map(h => fastly.deleteCondition(newVersion, h.name)));
+			yield Promise.all(
+				currentConditions
+					.filter(c => options.skipConditions.indexOf(c.name) === -1)
+					.map(h => fastly.deleteCondition(newVersion, h.name))
+			);
 			log.info('Deleted old conditions');
 			if (backendData.conditions) {
 				yield Promise.all(backendData.conditions.map(c => {
