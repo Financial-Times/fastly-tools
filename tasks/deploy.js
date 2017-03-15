@@ -15,7 +15,8 @@ function task (folder, opts) {
 		verbose: false,
 		disableLogs: false,
 		backends: null,
-		apiKeys: []
+		apiKeys: [],
+		skipConditions: []
 	}, opts);
 
 	if (options.env) {
