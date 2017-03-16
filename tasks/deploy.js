@@ -126,6 +126,10 @@ function task (folder, opts) {
 						'delete': fastly.deleteLoggingSyslogByName,
 						'create': fastly.createLoggingSyslog,
 				},
+				'gcs':     { 'get':    fastly.getLoggingGcs,
+						'delete': fastly.deleteLoggingGcsByName,
+						'create': fastly.createLoggingGcs,
+				},
 			};
 
 			for(const logger in loggers) {
