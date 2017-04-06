@@ -126,7 +126,6 @@ function task (folder, opts) {
 			}));
 			log.info('Uploaded new backends');
 
-
 			const loggers = {
 				'logentries': { 'get':    fastly.getLoggingLogentries,
 						'delete': fastly.deleteLoggingLogentriesByName,
