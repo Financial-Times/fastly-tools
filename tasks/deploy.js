@@ -103,6 +103,19 @@ function task (folder, opts) {
 				log.info('Uploaded new conditions');
 			}
 
+			if (backendData.headers) {
+				log.verbose('Now, delete all existing headers');
+				const currentHeaders = yield fastly.getHeaders(newVersion)
+				yield Promise.all(currentHeaders.map(h => fastly.deleteHeader(newVersion, h.name)));
+				log.info('Deleted old headers');
+				yield Promise.all(backendData.headers.map(h => {
+					log.verbose(`upload header ${h.name}`);
+					return fastly.createHeader(newVersion, h)
+						.then(() => log.verbose(`✓ Header ${h.name} uploaded`));
+				}));
+				log.info('Uploaded new headers');
+			}
+
 			log.verbose('Now, delete all existing backends');
 			const currentBackends = yield fastly.getBackend(newVersion);
 			yield Promise.all(currentBackends.map(b => fastly.deleteBackendByName(newVersion, b.name)));
