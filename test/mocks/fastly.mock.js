@@ -34,6 +34,9 @@ var methods = {
 	'getLoggingSyslog': [{name:'fake-syslog'}],
 	'deleteLoggingSyslogByName': null,
 	'createLoggingSyslog': null,
+	'getLoggingSplunk': [{name:'fake-splunk'}],
+	'deleteLoggingSplunkByName': null,
+	'createLoggingSplunk': null,
 };
 
 var mock = {};
