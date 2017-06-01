@@ -37,6 +37,9 @@ var methods = {
 	'getLoggingSplunk': [{name:'fake-splunk'}],
 	'deleteLoggingSplunkByName': null,
 	'createLoggingSplunk': null,
+	'getLoggingS3': [{name:'fake-s3'}],
+	'deleteLoggingS3ByName': null,
+	'createLoggingS3': null,
 };
 
 var mock = {};
