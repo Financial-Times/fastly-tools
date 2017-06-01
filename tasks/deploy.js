@@ -143,6 +143,10 @@ function task (folder, opts) {
 						'delete': fastly.deleteLoggingSplunkByName,
 						'create': fastly.createLoggingSplunk,
 				},
+				's3':         { 'get':    fastly.getLoggingS3,
+						'delete': fastly.deleteLoggingS3ByName,
+						'create': fastly.createLoggingS3,
+				},
 			};
 
 			for(const logger in loggers) {
