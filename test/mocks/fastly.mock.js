@@ -40,6 +40,9 @@ var methods = {
 	'getLoggingS3': [{name:'fake-s3'}],
 	'deleteLoggingS3ByName': null,
 	'createLoggingS3': null,
+	'getLoggingGcs': [{name:'fake-gcs'}],
+	'deleteLoggingGcsByName': null,
+	'createLoggingGcs': null,
 };
 
 var mock = {};
