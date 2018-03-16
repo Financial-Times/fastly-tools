@@ -147,6 +147,10 @@ function task (folder, opts) {
 						'delete': fastly.deleteLoggingS3ByName,
 						'create': fastly.createLoggingS3,
 				},
+				'bigquery':   { 'get':    fastly.getLoggingBigQuery,
+						'delete': fastly.deleteLoggingBigQueryByName,
+						'create': fastly.createLoggingBigQuery,
+				},
 			};
 
 			for(const logger in loggers) {
