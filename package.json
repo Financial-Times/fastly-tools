@@ -8,7 +8,10 @@
     "fastly": "./bin/fastly-tools.js"
   },
   "scripts": {
-    "test": "make test"
+    "test": "make test",
+    "precommit": "node_modules/.bin/secret-squirrel",
+    "commitmsg": "node_modules/.bin/secret-squirrel-commitmsg",
+    "prepush": "make verify -j3"
   },
   "engines": {
     "node": ">=5.10.1"
@@ -24,6 +27,7 @@
   },
   "homepage": "https://github.com/Financial-Times/fastly-tools#readme",
   "devDependencies": {
+    "@financial-times/n-gage": "^2.0.1",
     "chai": "^3.5.0",
     "eslint": "^2.8.0",
     "lintspaces-cli": "^0.4.0",
