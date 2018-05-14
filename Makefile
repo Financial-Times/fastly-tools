@@ -12,4 +12,4 @@ unit-test:
 test-int:
 	mocha int-tests/
 
-test: verify test-unit
+test: verify unit-test
