@@ -88,7 +88,7 @@ function task (folder, opts) {
 			}
 
 			log.verbose('Now, delete all existing conditions');
-			const currentConditions = yield fastly.getConditions(newVersion)
+			const currentConditions = yield fastly.getConditions(newVersion);
 			yield Promise.all(
 				currentConditions
 					.filter(c => options.skipConditions.indexOf(c.name) === -1)
@@ -105,7 +105,7 @@ function task (folder, opts) {
 
 			if (backendData.headers) {
 				log.verbose('Now, delete all existing headers');
-				const currentHeaders = yield fastly.getHeaders(newVersion)
+				const currentHeaders = yield fastly.getHeaders(newVersion);
 				yield Promise.all(currentHeaders.map(h => fastly.deleteHeader(newVersion, h.name)));
 				log.info('Deleted old headers');
 				yield Promise.all(backendData.headers.map(h => {
@@ -194,7 +194,7 @@ function task (folder, opts) {
 
 		// validate
 		log.verbose(`Validate version ${newVersion}`);
-		let validationResponse = yield fastly.validateVersion(newVersion)
+		let validationResponse = yield fastly.validateVersion(newVersion);
 		if (validationResponse.status === 'ok') {
 			log.info(`Version ${newVersion} looks ok`);
 			yield fastly.activateVersion(newVersion);

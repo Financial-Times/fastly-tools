@@ -1,13 +1,13 @@
 'use strict';
-var sinon = require('sinon');
+const sinon = require('sinon');
 
-var fakeServiceId = '1234567';
+const fakeServiceId = '1234567';
 
 function mockPromiseMethod (obj, name, value){
 	obj[name] = sinon.stub().returns(Promise.resolve(value));
 }
 
-var methods = {
+const methods = {
 	'getServices': [{id:fakeServiceId}],
 	'cloneVersion': {number:1},
 	'getVcl': [{name:'blah.vcl'}],
@@ -42,17 +42,17 @@ var methods = {
 	'createLoggingS3': null,
 };
 
-var mock = {};
-var called = false;
+let mock = {};
+let called = false;
 
-module.exports = function (){
-	if(called){
+module.exports = function () {
+	if (called) {
 		return mock;
 	}
 
 	mock = {apikeys: ['dummy-second-key'], apikey: 'dummy-key'};
-	var func = mockPromiseMethod.bind(null, mock);
-	Object.keys(methods).forEach(function (key){
+	const func = mockPromiseMethod.bind(null, mock);
+	Object.keys(methods).forEach(function (key) {
 		func(key, methods[key]);
 	});
 

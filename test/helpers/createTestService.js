@@ -15,11 +15,11 @@ module.exports = function createFastlyService (){
 		}
 	).then(response => {
 		if(!response.ok){
-			throw new Error('Failed to create new Service')
+			throw new Error('Failed to create new Service');
 		}
 
 		return response.json();
 	}).then(json => {
 		GLOBAL.FASTLY_TEST_SERVICE = json;
 	});
-}
+};
