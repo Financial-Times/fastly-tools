@@ -1,6 +1,6 @@
 machine:
   node:
-    version: 5.10.1
+    version: 8.1.2
 deployment:
     release:
       tag: /^v[0-9]+(.[0-9]+)*/
