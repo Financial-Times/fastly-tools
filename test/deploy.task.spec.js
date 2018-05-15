@@ -1,17 +1,19 @@
+/* eslint-disable no-console */
+
 'use strict';
-var sinon = require('sinon');
-var expect = require('chai').expect;
+const sinon = require('sinon');
+const expect = require('chai').expect;
 process.env.FASTLY_APIKEY ='12345';
-var proxyquire = require('proxyquire').noCallThru().noPreserveCache();
-var fastlyMock = require('./mocks/fastly.mock');
+const proxyquire = require('proxyquire').noCallThru().noPreserveCache();
+const fastlyMock = require('./mocks/fastly.mock');
 
-var path = require('path');
+const path = require('path');
 
-describe('Deploy Task', function(){
+describe('Deploy Task', function (){
 
-	var deployVcl;
+	let deployVcl;
 
-	before(function(){
+	before(function (){
 		deployVcl = proxyquire('../tasks/deploy', {'./../lib/fastly/lib' : fastlyMock});
 	});
 
@@ -23,7 +25,7 @@ describe('Deploy Task', function(){
 		}
 	});
 
-	it('Should be able to deploy some vcl', function(){
+	it('Should be able to deploy some vcl', function (){
 		return deployVcl(
 			path.resolve(__dirname, './fixtures/vcl')+'/',
 			{
@@ -32,13 +34,13 @@ describe('Deploy Task', function(){
 				skipConditions: [],
 				disableLogs:true
 			})
-			.then(function(){
+			.then(function (){
 				sinon.assert.called(fastlyMock().updateVcl);
 			});
 	});
 
-	it('Should replace placeholders with environment vars', function(){
-		var value = "value";
+	it('Should replace placeholders with environment vars', function (){
+		const value = 'value';
 		process.env.AUTH_KEY = value;
 		return deployVcl(
 			path.resolve(__dirname, './fixtures/vcl')+'/',
@@ -49,8 +51,8 @@ describe('Deploy Task', function(){
 				vars:['AUTH_KEY'],
 				disableLogs:true
 			})
-			.then(function(){
-				var vcl = fastlyMock().updateVcl.lastCall.args[1].content;
+			.then(function (){
+				const vcl = fastlyMock().updateVcl.lastCall.args[1].content;
 				expect(vcl).to.contain(value);
 				expect(vcl).not.to.contain('${AUTH_KEY}');
 			});
@@ -67,10 +69,10 @@ describe('Deploy Task', function(){
 				backends:'test/fixtures/backends.json',
 				disableLogs:true
 			})
-			.then(function(){
+			.then(function (){
 			let callCount = fastlyMock().createBackend.callCount;
 			expect(callCount).to.equal(fixture.backends.length);
-			for(var i=0; i<callCount; i++){
+			for(let i=0; i<callCount; i++){
 				let call = fastlyMock().createBackend.getCall(i);
 				try{
 					expect(call.args[1]).to.deep.equal(fixture.backends[i]);
@@ -94,10 +96,10 @@ describe('Deploy Task', function(){
 				backends:'test/fixtures/backends.json',
 				disableLogs:true
 			})
-			.then(function(){
+			.then(function (){
 				let callCount = fastlyMock().createHealthcheck.callCount;
 				expect(callCount).to.equal(fixture.healthchecks.length);
-				for(var i=0; i<callCount; i++){
+				for(let i=0; i<callCount; i++){
 					let call = fastlyMock().createHealthcheck.getCall(i);
 					expect(call.args[1]).to.deep.equal(fixture.healthchecks[i]);
 				}
@@ -115,10 +117,10 @@ describe('Deploy Task', function(){
 				backends:'test/fixtures/backends.json',
 				disableLogs:true
 			})
-			.then(function(){
+			.then(function (){
 				let callCount = fastlyMock().createCondition.callCount;
 				expect(callCount).to.equal(fixture.conditions.length);
-				for(var i=0; i<callCount; i++){
+				for(let i=0; i<callCount; i++){
 					let call = fastlyMock().createCondition.getCall(i);
 					expect(call.args[1]).to.deep.equal(fixture.conditions[i]);
 				}

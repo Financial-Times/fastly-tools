@@ -1,8 +1,10 @@
+/* eslint-disable no-console */
+
 'use strict';
 const fetch = require('node-fetch');
 const expect = require('chai').expect;
 
-function waitFor(ms){
+function waitFor (ms){
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
@@ -14,7 +16,7 @@ describe('Integration Tests', () => {
 		let fastly;
 		let testServiceId;
 
-		function createTestService(){
+		function createTestService (){
 			return fetch('https://api.fastly.com/service', {
 				method: 'POST',
 				headers: {
@@ -26,7 +28,7 @@ describe('Integration Tests', () => {
 			}).then(response => response.json());
 		}
 
-		function deleteTestService(){
+		function deleteTestService (){
 			return fetch('https://api.fastly.com/service/' + testServiceId, {
 				method: 'DELETE',
 				headers: {
@@ -43,7 +45,7 @@ describe('Integration Tests', () => {
 					//console.log(svc);
 					testServiceId = svc.id;
 					fastly = require('fastly')(process.env.FASTLY_APIKEY, svc.id);
-				})
+				});
 		});
 
 		after(() => {
@@ -68,7 +70,7 @@ describe('Integration Tests', () => {
 						expect(response).to.exist;
 						expect(response.name).to.equal(name);
 						expect(response.hostname).to.equal(host);
-					})
+					});
 			});
 
 			it('Should be able to delete a backend', () => {
@@ -88,7 +90,7 @@ describe('Integration Tests', () => {
 			it.skip('Should be able to create 7 backends', () => {
 				let items = [1,2,3,4,5,6,7];
 				let backends = items.map(i => {
-					return {'name':`backend_${i}`, 'hostname': `blah${i}.ft.com`}
+					return {'name':`backend_${i}`, 'hostname': `blah${i}.ft.com`};
 				});
 
 				return Promise.all(backends.map(b => {
@@ -100,13 +102,13 @@ describe('Integration Tests', () => {
 					.then(backends => {
 						console.log(backends);
 						expect(backends.length).to.equal(items.length);
-					})
+					});
 			});
 
 
 
 		});
 
-	})
+	});
 
 });
