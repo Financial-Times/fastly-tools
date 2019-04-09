@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/Financial-Times/fastly-tools#readme",
   "devDependencies": {
-    "@financial-times/n-gage": "^2.0.1",
+    "@financial-times/n-gage": "^3.5.0",
     "chai": "^3.5.0",
     "eslint": "^4.19.1",
     "lintspaces-cli": "^0.4.0",
