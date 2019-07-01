@@ -11,7 +11,8 @@
     "test": "make test",
     "precommit": "node_modules/.bin/secret-squirrel",
     "commitmsg": "node_modules/.bin/secret-squirrel-commitmsg",
-    "prepush": "make verify -j3"
+    "prepush": "make verify -j3",
+    "prepare": "npx snyk protect || npx snyk protect -d || true"
   },
   "engines": {
     "node": ">=5.10.1"
@@ -35,6 +36,7 @@
     "npm-prepublish": "^1.2.1",
     "proxyquire": "^1.7.4",
     "sinon": "^1.17.3",
+    "snyk": "^1.167.2",
     "tap": "^5.7.1"
   },
   "dependencies": {
