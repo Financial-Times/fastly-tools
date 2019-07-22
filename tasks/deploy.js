@@ -206,7 +206,7 @@ function task (folder, opts) {
 		}
 
 		log.success('Your VCL has been deployed.');
-		log.art('superman', 'success');
+		log.art('tea', 'success');
 
 	});
 }
