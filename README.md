@@ -1,16 +1,42 @@
-# fastly-tools
+# fastly-tools [![CircleCI](https://circleci.com/gh/Financial-Times/fastly-tools.svg?style=svg&circle-token=33bcf2eb98fe2e875cc66de93d7e4a50369c952d)](https://circleci.com/gh/Financial-Times/fastly-tools)
 
-Command Line Utility for interacting with fastly
+This library is a command line tool for interacting with the FT.com CDN, [Fastly](https://www.fastly.com/).
+
+
+## Requirements
+
+* Node 5.x
+
 
 ## Installation
 
+```sh
+git clone git@github.com:Financial-Times/fastly-tools.git
+cd fastly-tools
+make install
 ```
+
+
+## Development
+
+### Testing
+
+In order to run the tests locally you'll need to run:
+
+```sh
+make test
+```
+
+### Install from NPM
+
+```sh
 npm install --save-dev @financial-times/fastly-tools
 ```
 
-## Usage
+### Usage
 
-	fastly [options] [command]
+```sh
+fastly [options] [command]
 
       Commands:
 
@@ -20,11 +46,9 @@ npm install --save-dev @financial-times/fastly-tools
       Options:
 
         -h, --help  output usage information
+```
 
-
-## Commands
-
-### deploy
+### Deploy
 Deploys VCL in [folder] to the specified fastly service.  Requires FASTLY_APIKEY env var
 
   Usage: deploy [options] [folder]
