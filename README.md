@@ -39,20 +39,18 @@ npm install --save-dev @financial-times/fastly-tools
 Usage: fastly [options] [command]
 
 Options:
-  -h, --help                 output usage information
+  -h, --help                      output usage information
 
 Commands:
-  deploy [options] [folder]  Deploys VCL in [folder] to the specified fastly service.  Requires FASTLY_KEY env var
+  deploy [options] [folder]       Deploys VCL in [folder] to the specified fastly service.  Requires FASTLY_APIKEY env var
 ```
 
 ### Deploy
 
-Deploys VCL in [folder] to the specified fastly service. Requires FASTLY_APIKEY environment variable.
-
 ```sh
 Usage: deploy [options] [folder]
 
-Deploys VCL in [folder] to the specified fastly service.  Requires FASTLY_KEY env var
+Deploys VCL in [folder] to the specified fastly service.  Requires FASTLY_APIKEY env var
 
 Options:
   -m, --main <main>               Set the name of the main vcl file (the entry point).  Defaults to "main.vcl"
