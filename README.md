@@ -56,7 +56,7 @@ Deploys VCL in [folder] to the specified fastly service.  Requires FASTLY_KEY en
 
 Options:
   -m, --main <main>               Set the name of the main vcl file (the entry point).  Defaults to "main.vcl"
-  -v, --vars <vars>               A way of injecting environment vars into the VCL.  So if you pass --vars AUTH_KEY,FOO the values {$AUTH_KEY} and ${FOO} in the vcl will be replaced with the values of the environmemnt variable.  If you include SERVICEID it will be populated with the current --service option
+  -v, --vars <vars>               A way of injecting environment vars into the VCL.  So if you pass --vars AUTH_KEY,FOO the values {$AUTH_KEY} and ${FOO} in the vcl will be replaced with the values of the environment variable.  If you include SERVICEID it will be populated with the current --service option
   -e, --env                       Load environment variables from local .env file (use when deploying from a local machine
   -s, --service <service>         REQUIRED.  The ID of the fastly service to deploy to.
   -V --verbose                    Verbose log output
