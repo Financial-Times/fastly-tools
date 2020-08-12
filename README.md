@@ -63,3 +63,11 @@ Options:
   --skip-conditions <conditions>  list of conditions to skip deleting
   -h, --help                      output usage information
 ```
+
+### Example
+
+For example to deploy to a given environment, you would use the following command:
+
+```sh
+	fastly-tools deploy -V --vars SERVICEID --main main.vcl --service ${FASTLY_STAGING_SERVICE_ID} --api-keys ${FASTLY_STAGING_APIKEY} --backends backends.js ./vcl/
+```
