@@ -42,7 +42,7 @@ Options:
   -h, --help                      output usage information
 
 Commands:
-  deploy [options] [folder]       Deploys VCL in [folder] to the specified fastly service.  Requires FASTLY_APIKEY env var
+  deploy [options] [folder]       Deploys VCL in [folder] to the specified fastly service. Requires FASTLY_APIKEY env var which can be found in the repo's corresponding Vault directory.
 ```
 
 ### Deploy
@@ -50,7 +50,7 @@ Commands:
 ```sh
 Usage: deploy [options] [folder]
 
-Deploys VCL in [folder] to the specified fastly service.  Requires FASTLY_APIKEY env var
+Deploys VCL in [folder] to the specified fastly service. Requires FASTLY_APIKEY env var which can be found in the repo's corresponding Vault directory. 
 
 Options:
   -m, --main <main>               Set the name of the main vcl file (the entry point).  Defaults to "main.vcl"

@@ -8,7 +8,7 @@ function list (val) {
 
 program
 	.command('deploy [folder]')
-	.description('Deploys VCL in [folder] to the specified fastly service.  Requires FASTLY_APIKEY env var')
+	.description('Deploys VCL in [folder] to the specified fastly service. Requires FASTLY_APIKEY env var which can be found in the repo\'s corresponding Vault directory.')
 	.option('-m, --main <main>', 'Set the name of the main vcl file (the entry point).  Defaults to "main.vcl"')
 	.option('-v, --vars <vars>', 'A way of injecting environment vars into the VCL.  So if you pass --vars AUTH_KEY,FOO the values {$AUTH_KEY} and ${FOO} in the vcl will be replaced with the values of the environmemnt variable.  If you include SERVICEID it will be populated with the current --service option', list)
 	.option('-e, --env', 'Load environment variables from local .env file (use when deploying from a local machine')
