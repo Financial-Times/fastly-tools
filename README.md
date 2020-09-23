@@ -5,7 +5,7 @@ This library is a command line tool for interacting with the FT.com CDN, [Fastly
 
 ## Requirements
 
-* Node 5.x
+* Node version defined by `engines.node` in `package.json`. Run command `nvm use` to switch your local Node version to the one specified in `.nvmrc`.
 
 
 ## Installation
@@ -50,7 +50,7 @@ Commands:
 ```sh
 Usage: deploy [options] [folder]
 
-Deploys VCL in [folder] to the specified fastly service. Requires FASTLY_APIKEY env var which can be found in the repo's corresponding Vault directory. 
+Deploys VCL in [folder] to the specified fastly service. Requires FASTLY_APIKEY env var which can be found in the repo's corresponding Vault directory.
 
 Options:
   -m, --main <main>               Set the name of the main vcl file (the entry point).  Defaults to "main.vcl"
