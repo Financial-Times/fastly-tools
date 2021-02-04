@@ -31,9 +31,9 @@ references:
     restore_cache:
         <<: *npm_cache_keys
 
-  filters_only_master: &filters_only_master
+  filters_only_main: &filters_only_main
     branches:
-      only: master
+      only: main
 
   filters_ignore_tags: &filters_ignore_tags
     tags:
@@ -168,7 +168,7 @@ workflows:
       - schedule:
           cron: "0 0 * * *"
           filters:
-            <<: *filters_only_master
+            <<: *filters_only_main
     jobs:
       - build:
           context: next-nightly-build
