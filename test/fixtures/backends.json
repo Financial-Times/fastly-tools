@@ -53,16 +53,6 @@
       "healthcheck": "access_healthcheck"
     },
     {
-      "name": "fastft",
-      "connect_timeout": 3000,
-      "port": "80",
-      "hostname": "fastft.glb.ft.com",
-      "first_byte_timeout": 1000,
-      "max_conn": 200,
-      "between_bytes_timeout": 1000,
-      "healthcheck": "fastft_healthcheck"
-    },
-    {
       "name": "access_test",
       "connect_timeout": 3000,
       "port": "80",
