@@ -15,7 +15,7 @@
     "prepare": "npx snyk protect || npx snyk protect -d || true"
   },
   "engines": {
-    "node": "12.x"
+    "node": ">=5.10.1"
   },
   "repository": {
     "type": "git",
@@ -45,7 +45,7 @@
     "colors": "^1.1.2",
     "commander": "^2.9.0",
     "debug": "^2.2.0",
-    "node-fetch": "^1.5.0",
+    "node-fetch": "^2.0.0",
     "request": "^2.72.0"
   }
 }
