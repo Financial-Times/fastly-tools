@@ -9,9 +9,6 @@
   },
   "scripts": {
     "test": "make test",
-    "precommit": "node_modules/.bin/secret-squirrel",
-    "commitmsg": "node_modules/.bin/secret-squirrel-commitmsg",
-    "prepush": "make verify -j3",
     "prepare": "npx snyk protect || npx snyk protect -d || true"
   },
   "engines": {
@@ -28,7 +25,7 @@
   },
   "homepage": "https://github.com/Financial-Times/fastly-tools#readme",
   "devDependencies": {
-    "@financial-times/n-gage": "^3.5.0",
+    "@financial-times/n-gage": "^8.3.2",
     "chai": "^3.5.0",
     "eslint": "^4.19.1",
     "lintspaces-cli": "^0.4.0",
@@ -47,5 +44,12 @@
     "debug": "^2.2.0",
     "node-fetch": "^1.5.0",
     "request": "^2.72.0"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "node_modules/.bin/secret-squirrel-commitmsg",
+      "pre-commit": "node_modules/.bin/secret-squirrel",
+      "pre-push": "make verify -j3"
+    }
   }
 }
