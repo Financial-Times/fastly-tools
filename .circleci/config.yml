@@ -56,7 +56,10 @@ references:
     branches:
       ignore: /(^renovate-.*|^nori/.*)/
 
-version: 2
+version: 2.1
+
+orbs:
+  node: circleci/node@4.6.0
 
 jobs:
 
@@ -68,6 +71,8 @@ jobs:
           name: Checkout next-ci-shared-helpers
           command: git clone --depth 1 git@github.com:Financial-Times/next-ci-shared-helpers.git .circleci/shared-helpers
       - *restore_npm_cache
+      - node/install-npm:
+          version: "7"
       - run:
           name: Install project dependencies
           command: make install
