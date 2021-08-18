@@ -77,9 +77,6 @@ jobs:
           name: Install project dependencies
           command: make install
       - run:
-          name: shared-helper / npm-update
-          command: .circleci/shared-helpers/helper-npm-update
-      - run:
           name: Run the project build task
           command: make build
       - run:
