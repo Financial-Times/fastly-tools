@@ -9,10 +9,12 @@
   },
   "scripts": {
     "test": "make test",
-    "prepare": "npx snyk protect || npx snyk protect -d || true"
+    "prepare": "npx snyk protect || npx snyk protect -d || true",
+    "preinstall": "[[ \"$INIT_CWD\" != \"$PWD\" ]] || npm_config_yes=true npx check-engine"
   },
   "engines": {
-    "node": "12.x"
+    "node": "12.x",
+    "npm": "7.x"
   },
   "repository": {
     "type": "git",
@@ -27,6 +29,7 @@
   "devDependencies": {
     "@financial-times/n-gage": "^8.3.2",
     "chai": "^3.5.0",
+    "check-engines": "^1.5.0",
     "eslint": "^4.19.1",
     "lintspaces-cli": "^0.4.0",
     "mocha": "^2.4.5",
@@ -51,5 +54,9 @@
       "pre-commit": "node_modules/.bin/secret-squirrel",
       "pre-push": "make verify -j3"
     }
+  },
+  "volta": {
+    "node": "12.22.5",
+    "npm": "7.20.2"
   }
 }
