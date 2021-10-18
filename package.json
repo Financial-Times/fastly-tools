@@ -10,11 +10,11 @@
   "scripts": {
     "test": "make test",
     "prepare": "npx snyk protect || npx snyk protect -d || true",
-    "preinstall": "[[ \"$INIT_CWD\" != \"$PWD\" ]] || npm_config_yes=true npx check-engine"
+    "preinstall": "[ \"$INIT_CWD\" != \"$PWD\" ] || npm_config_yes=true npx check-engine"
   },
   "engines": {
     "node": "12.x",
-    "npm": "7.x"
+    "npm": "7.x || 8.x"
   },
   "repository": {
     "type": "git",
