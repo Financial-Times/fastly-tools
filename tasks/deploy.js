@@ -20,7 +20,7 @@ function task (folder, opts) {
 	}, opts);
 
 	if (options.env) {
-		require('dotenv').load();
+		require('dotenv').config();
 	}
 
 	const log = require('../lib/logger')({verbose:options.verbose, disabled:options.disableLogs});
