@@ -32,7 +32,7 @@
     "check-engine": "^1.10.1",
     "eslint": "^4.19.1",
     "lintspaces-cli": "^0.4.0",
-    "mocha": "^2.4.5",
+    "mocha": "^4.0.0",
     "npm-prepublish": "^1.2.1",
     "proxyquire": "^1.7.4",
     "sinon": "^1.17.3",
