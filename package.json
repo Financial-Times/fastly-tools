@@ -37,7 +37,7 @@
     "proxyquire": "^1.7.4",
     "sinon": "^1.17.3",
     "snyk": "^1.167.2",
-    "tap": "^5.7.1"
+    "tap": "^11.0.0"
   },
   "dependencies": {
     "array.prototype.includes": "^1.0.0",
