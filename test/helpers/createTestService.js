@@ -20,6 +20,6 @@ module.exports = function createFastlyService (){
 
 		return response.json();
 	}).then(json => {
-		GLOBAL.FASTLY_TEST_SERVICE = json; // eslint-disable-line no-undef
+		global.FASTLY_TEST_SERVICE = json; // eslint-disable-line no-undef
 	});
 };
