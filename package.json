@@ -13,7 +13,7 @@
     "preinstall": "[ \"$INIT_CWD\" != \"$PWD\" ] || npm_config_yes=true npx check-engine"
   },
   "engines": {
-    "node": "12.x",
+    "node": "16.x",
     "npm": "7.x || 8.x"
   },
   "repository": {
@@ -57,7 +57,7 @@
     }
   },
   "volta": {
-    "node": "12.22.5",
+    "node": "16.14.2",
     "npm": "7.20.2"
   }
 }
