@@ -9,12 +9,11 @@
   },
   "scripts": {
     "test": "make test",
-    "prepare": "npx snyk protect || npx snyk protect -d || true",
-    "preinstall": "[ \"$INIT_CWD\" != \"$PWD\" ] || npm_config_yes=true npx check-engine"
+    "prepare": "npx snyk protect || npx snyk protect -d || true"
   },
   "engines": {
-    "node": "16.x",
-    "npm": "7.x || 8.x"
+    "node": "16.x || 18.x",
+    "npm": "7.x || 8.x || 9.x"
   },
   "repository": {
     "type": "git",
@@ -57,7 +56,6 @@
     }
   },
   "volta": {
-    "node": "16.14.2",
-    "npm": "7.20.2"
+    "node": "18.16.0"
   }
 }
