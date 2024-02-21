@@ -1,3 +1,6 @@
+> [!WARNING]<br />
+> This package is deprecated as of **2024-02-21**. The [Fastly monorepo](https://github.com/financial-times/fastly) is currently hosting the config for each service. The FT.com CDN config has been migrated to Terraform and it's managed by their own separate [repo](https://github.com/Financial-Times/ft.com-cdn). Consumers of this package should migrate their config to the monorepo.
+
 # fastly-tools [![CircleCI](https://circleci.com/gh/Financial-Times/fastly-tools.svg?style=svg&circle-token=33bcf2eb98fe2e875cc66de93d7e4a50369c952d)](https://circleci.com/gh/Financial-Times/fastly-tools)
 
 This library is a command line tool for interacting with the FT.com CDN, [Fastly](https://www.fastly.com/).
